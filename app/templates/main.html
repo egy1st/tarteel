@@ -1,0 +1,26 @@
+<div id="PageDiv">
+	<canvas id="myCanvas" width="{{resolution[0]}}" height="{{resolution[1]}}"
+	style="border:1px solid #c3c3c3; float:inline-start">
+	Your browser does not support the canvas element.
+	</canvas>
+	 <textarea style="float:inline-start; display:none;" id="coords" rows="3" cols="5">{{highlight}}</textarea> 
+	 <button style="float:inline-start; display:none;" id="refresh" onclick="onRefreshPress()">Refresh</button>
+	 
+</div>
+
+<script>
+	window.gData = {{data|safe}}
+	window.gValues = {{values}}
+	window.gPagePath = '{{pagePath}}'
+</script>
+
+<script type="text/javascript" src="{{STATIC_URL}}js/main.js">
+	function myCanvas() {
+		var c = document.getElementById("myCanvas");
+		var ctx = c.getContext("2d");
+		var img = document.getElementById("scream");
+		ctx.drawImage(img,10,10);
+	}
+	// window.gValues = {{values}}
+</script>
+

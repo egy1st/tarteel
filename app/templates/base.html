@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+        {% block head_base %}
+		<!-- Basic -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="keywords" content="ترتيل" />
+		<title>ورتل القرآن ترتيلا</title>
+		
+		<meta property="og:url" content="https://www.tarteel.net/hefz?surah={{surah}}&safah={{safah}}&reciter=01&repeat=1&ayah_repeat=1" />
+		<meta property="og:image:type"        content="image/jpeg" />
+		<meta property="og:image"              content="https://cdn.tarteel.net/ayat/N1/img/T2/02/{{safah}}.jpg" />
+        <meta property="og:image:width" content="400" />
+		<meta property="og:image:height" content="600" />
+		<meta property="og:image:alt" content="آية قرآنية" />
+		
+		
+		<!-- Favicon -->
+		<link rel="icon" type="image/x-icon" href="{{STATIC_URL}}img/favicon.ico">
+		
+		
+	    {% if title %}
+	        <title>{{ title }}</title>
+	    {% else %}
+	        <title>ورتل القرآن ترتيلا</title>	
+	    {% endif %}
+
+
+		<!-- Mobile Metas -->
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
+        
+		
+		<!-- Vendor CSS -->
+		<link rel="stylesheet" href="{{STATIC_URL}}css/tailwind.css" />
+        <link rel="stylesheet" href="{{STATIC_URL}}css/flowbite.min.css" />		
+			
+
+		<!-- Head Libs -->
+		<style>
+			body {
+			direction: rtl;
+			text-align: right;
+			}
+			.selected {
+				font-weight: bold;
+			}
+			
+	   </style>
+	
+		
+		
+		<script>
+		  // It's best to inline this in `head` to avoid FOUC (flash of unstyled content) when changing pages or themes
+		  if (
+			localStorage.getItem('color-theme') === 'dark' ||
+			(!('color-theme' in localStorage) &&
+			  window.matchMedia('(prefers-color-scheme: dark)').matches)
+		  ) {
+			document.documentElement.classList.add('dark');
+		  } else {
+			document.documentElement.classList.remove('dark');
+		  }
+		</script>
+		
+		
+	{% endblock %}			
+	</head>
+ 
+
+
+<body onload='document.getElementById("startButton").addEventListener("click", onStart);'>
+	
+    
+	{% block content %}
+	
+	
+	
+	
+	{% endblock %}	
+	
+
+
+	
+<!-- Vendor -->
+<script src="{{STATIC_URL}}js/flowbite.js"></script>
+<script src="{{STATIC_URL}}js/functions.js"></script>
+
+<!-- Highliter js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/javascript" src ="{{STATIC_URL}}js/helpers.js"></script>
+<script type="text/javascript" src ="{{STATIC_URL}}js/highlighter.js"></script>
+
+</body>
+
+	
+
+<footer id="footer">
+	<!-- {% include 'footer.html' %} -->			
+</footer>
+
+</html>

@@ -1,0 +1,140 @@
+<div class="bg-white" >
+{% include 'nav.html' %}	
+<div class="bg-white">
+<br>
+</div>
+
+
+
+<div class="mx-left max-w-md bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+
+<h3 class="mb-5 text-lg font-medium text-gray-900 dark:text-white">التنقل بين الآيات</h3>
+<ul class="grid gap-6 w-full md:grid-cols-3">
+    <li>
+		<button id="next" type="button" onClick="window.location.href='{{ url_for('index', surah=surah, ayah=next_ayah, reciter=reciter) }}'" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+		 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd"></path></svg>
+		  <span class="sr-only">Icon description</span>
+		</button>
+		 </li><li>	
+			 <button id="run" type="button" onClick="var sound = new Audio('{{STATIC_URL}}ayat/{{narration}}/mp3/{{mode}}/{{reciter}}/{{surah_fill}}{{ayah_fill}}.mp3'); sound.play();" class="text-white bg-red-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+			<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+			 <span class="sr-only">Icon description</span>
+			</button>
+		 </li><li>		
+			<button id="prev" type="button" onClick="window.location.href='{{ url_for('index', surah=surah, ayah=prev_ayah, reciter=reciter) }}'" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+			  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z" clip-rule="evenodd"></path></svg>
+			  <span class="sr-only">Icon description</span>
+			</button>
+            </li>
+			</ul>
+			<br>
+			</div>
+			
+	
+<div>
+				
+<br>				
+					
+						
+<div class="mx-left max-w-md bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+
+								
+<form id="form_fromto" action="{{ url_for('hefz') }}" method="post">
+            {% include 'reciters.html' %}	
+			<br>
+			
+            <div class="grid gap-6 mb-6 md:grid-cols-2">
+			<div>
+				<label for="surah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">رقم السورة</label>
+				<input onChange="" type="text" id="surah" name="surah" value="{{surah}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="2" placeholder="" required>
+			</div>
+			<div>
+				<label for="safah" class="hidden block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">صفحة التلاوة</label>
+				<input onfocusout="" type="text" id="safh" name="safah" value="" class="hidden bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="" placeholder="">
+			</div>
+			<div class="grid gap-6 mb-6 md:grid-cols-2">
+			<div>
+				<label for="ayah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">من آية</label>
+				<input onChange="" type="text" id="ayah"  name="ayah" value="{{ayah}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="" placeholder="" >
+			</div>
+			<div>
+				<label for="to_ayah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">حتى آية</label>
+				<input onChange="" type="text" id="to_ayah" name="to_ayah" value="{{to_ayah}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="" placeholder="" >
+			</div>
+			</div>
+			
+			<div class="grid gap-6 mb-6 md:grid-cols-2">
+			<div>
+				<label for="repeat" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> تكرار المقطع</label>
+				<input onChange="" type="text" id="repeat"  name="repeat" value="{{repeat}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="" placeholder="" >
+			</div>
+			<div>
+				<label for="ayah_repeat" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> تكرار الآية </label>
+				<input onfocusout="" type="text" id="ayah_repeat" name="ayah_repeat" value="{{ayah_repeat}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="" placeholder="" >
+			</div>
+				
+			</div>
+			
+			
+			
+			<div class="grid gap-6 mb-6 md:grid-cols-2">
+			<button type="submit"  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><b>(1)</b><br>  اعداد</button>
+			
+			<button type="button" id="startButton" name="startButton" onClick="" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><b>(2)</b><br> تشغيل</button>
+			
+			<audio autoplay >
+			  {% if  stage_0 == 0 %}
+			  <source src="{{STATIC_URL}}ayat/{{narration}}/mp3/{{mode}}/{{reciter}}/{{surah_fill}}{{ayah_fill}}.mp3" type="audio/mpeg">
+			   Your browser does not support the audio element.
+			  {% endif %} 
+			</audio>
+			
+			</div>
+			
+			
+			
+</div>	
+
+	
+		
+	
+</form>
+
+
+			
+<div class="mx-left max-w-md bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">			
+<h3 class="mb-5 text-lg font-medium text-gray-900 dark:text-white">التنقل بين الصفحات</h3>
+<ul class="grid gap-6 w-full md:grid-cols-2">
+    <li>
+        <input type="radio" id="hosting-small" name="hosting" value="hosting-small" onClick="window.location.href='{{ url_for('hefz', surah=surah, safah=safah+1, reciter=reciter, repeat=repeat, ayah_repeat=ayah_repeat) }}'; " class="hidden peer" required="">
+        <label for="hosting-small" class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"> 
+       <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>		
+            <div class="block">
+                <div class="w-full text-lg font-semibold">الصفحة التالية</div>
+                <div class="w-full">{{safah + 1}}</div>
+            </div>
+        </label>
+    </li>
+    <li>
+        <input type="radio" id="hosting-big" name="hosting" value="hosting-big" onClick="window.location.href='{{ url_for('hefz', surah=surah, safah=safah-1, reciter=reciter, repeat=repeat, ayah_repeat=ayah_repeat) }}';" class="hidden peer">
+        <label for="hosting-big" class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+            <div class="block">
+                <div class="w-full text-lg font-semibold">الصفحة السابقة</div>
+                <div class="w-full">{{safah -1}}</div>
+            </div>
+             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
+        </label>
+    </li>
+</ul>
+
+</div>
+
+			
+			
+	   
+
+</div>
+		
+</div>
+
+</div>
