@@ -35,14 +35,16 @@ nosetests.xml
 .project
 .pydevproject
 
+# Node modules
+node_modules
+
 # SQLite databases
 *.sqlite
 
 # Virtual environment
 venv
 .env
+
 app/static/resources
-app/static/ayat/N1/mp3
-app/static/ayat/N1/img
 
 
