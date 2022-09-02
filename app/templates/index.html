@@ -89,14 +89,6 @@
 	  onRefreshPress();
 	 
 	 
-	  
-		
-	  
-	 
-		
-	  
-	  
-	 
      if (audio_basePointer in data_dic ){
 		//console.log("found", audio_basePointer);
 		tmp_scroller = 0 ;
@@ -130,11 +122,11 @@
 	cur_ayah = basecur_ayah;
 	}
 	 
-	 
-	if (tmp_scroller >= scroller ) {
+	console.log (audioPointer, tmp_scroller, scroller, scroller*ayah_repeat);
+	if (tmp_scroller > (scroller*ayah_repeat ) ) {
 		 scrollMe("Bottom");
 		}
-	 tmp_scroller += 1 ; 
+	  tmp_scroller += 1 ; 
 	
      //console.log(tmp_scroller, scroller	 )
 	 
