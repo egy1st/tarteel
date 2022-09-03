@@ -136,6 +136,7 @@ def hefz():
     halfY = '1'
     selection_count = 1
     radioReciters = {}
+    TO_SCROLL = 500
     
     
     if  request.method == 'POST':
@@ -206,11 +207,20 @@ def hefz():
         safah_dic[ayah_pointer]['count'] = ayah_count
         safah_dic[ayah_pointer]['data'] = safah_data
         safah_dic[ayah_pointer]['page'] = safah
-        for pos in safah_data:
-                minY_pos = pos['min_y']
-                if minY_pos >= 550:
-                    halfY =  pos['ayah']
+        
+        half_found = False
+        for pos in safah_data: #522 583 643
+                ayah_pos = pos['ayah']
+                #print(half_found, ayah_pos, halfY, ayah_pos != halfY)
+                if half_found == True and ayah_pos != halfY:
                     break
+                maxY_pos = pos['max_y']
+                if maxY_pos >= TO_SCROLL:
+                    print(pos)
+                    half_found = True
+                    halfY = ayah_pos
+                    
+                    
         safah_dic[ayah_pointer]['scroll'] = int(halfY) - int(ayah)
         #print(halfY, ayah, int(halfY) - int(ayah))
         ayah_pointer += ayah_count
@@ -227,11 +237,16 @@ def hefz():
             safah_dic[ayah_pointer]['count'] = ayah_count
             safah_dic[ayah_pointer]['data'] = safah_next
             safah_dic[ayah_pointer]['page'] = i
+            
+            half_found = False
             for pos in safah_next:
-                minY_pos = pos['min_y']
-                if minY_pos >= 550:
-                    halfY =  pos['ayah']
+                ayah_pos = pos['ayah']
+                if half_found == True and ayah_pos != halfY:
                     break
+                maxY_pos = pos['max_y']
+                if maxY_pos >= TO_SCROLL:
+                    half_found = True
+                    halfY = ayah_pos
             
             safah_dic[ayah_pointer]['scroll'] = int(halfY) - int(ayah_start) 
             ayah_pointer += ayah_count
