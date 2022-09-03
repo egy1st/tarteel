@@ -72,12 +72,12 @@ def uniformNumber(num):
         num = '0' + num   
     return num
 
+reciter_names = {'01': 'محمود خليل الحصرى', '02': 'محمد صديق المنشاوى', '03': 'عبد الباسط عبد الصمد', '04': 'محمود على البنا' , '05': 'مصطفى اسماعيل', '06': 'أحمد نعينع', '07': 'على الحذيفى', '08': 'أيمن سويد'}
+mode_type = {'R0': 'قراءة تعليمية للشيخ: ', 'R1': 'ترتيل للشيخ: ', 'R2': 'تجويد للشيخ: '}
 
 #@app.route('/')
 @app.route('/loop')
 def loop():
-    
-    
     
     return render_template('faq.html')
 
@@ -136,7 +136,7 @@ def hefz():
     halfY = '1'
     selection_count = 1
     radioReciters = {}
-    TO_SCROLL = 500
+    TO_SCROLL = 640
     
     
     if  request.method == 'POST':
@@ -325,7 +325,7 @@ def hefz():
                 to_repeat +=  "'" + ayah_i + "'" + ", "
          
     
-    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data,  data_dic=safah_dic, highlight=ayah_id, resolution=resolution, to_repeat=to_repeat, safah=safah, repeat=repeat, stage_0=stage_0, to_ayah=to_ayah, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters )
+    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data,  data_dic=safah_dic, highlight=ayah_id, resolution=resolution, to_repeat=to_repeat, safah=safah, repeat=repeat, stage_0=stage_0, to_ayah=to_ayah, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type )
     
     
 @app.route('/' )
@@ -410,7 +410,7 @@ def index(ayah='1', to_ayah='1', surah='2', reciter='06', mode='R1', narration='
         
     resolution = get_page_resolution(img_res, safah)
 
-    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, to_ayah=to_ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data, highlight=ayah_id, resolution=resolution, safah=safah, stage_0=stage_0, repeat=repeat, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters)
+    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, to_ayah=to_ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data, highlight=ayah_id, resolution=resolution, safah=safah, stage_0=stage_0, repeat=repeat, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type)
 
 
 @app.route('/login', methods=['GET', 'POST'])
