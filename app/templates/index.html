@@ -37,10 +37,6 @@
 </div>
 <div id="bottom_line">
 
-<div>
-{% include 'drawer.html' %}
-</div>
-
 <script> 
   data_dic = {{data_dic|safe}} ;
   //console.log(data_dic);
@@ -211,8 +207,8 @@
 	function fnSurahNumSelected() {
      	 
 	var valueSelected = (parseInt(document.getElementById("surah").value) -1).toString() ;
-	//alert(valueSelected);
     document.getElementById("surahlist").value = valueSelected ;
+	//alert(valueSelected);
 	document.getElementById("to_ayah").value = {{ayahCount}}[valueSelected]  ;
 	
     }

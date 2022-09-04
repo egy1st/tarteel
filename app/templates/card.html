@@ -28,8 +28,11 @@
             </li>
 			</ul>
 			<br>
-			</div>
+ </div>
 			
+
+
+
 	
 <div>
 				
@@ -49,9 +52,65 @@
 				<input onChange="fnSurahNumSelected();" type="text" id="surah" name="surah" value="{{surah}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="2" placeholder="" required>
 			</div>
 			
+	
 			<select id="surahlist" name="surahlist"  onchange="fnSurahSelected();" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
 			  {{surahNamesList|safe}}
 			</select>
+		    </div>
+			
+            <div class="grid gap-6 mb-6 md:grid-cols-3">
+			<select id="partlist" name="partlist"  onchange="" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+			  <option selected value='0'>اختر الجزء</option>
+			  <option value='1'>الجزء الأول</option>
+			  <option value='2'>الجزء الثانى</option>
+			  <option value='3'>الجزء الثالث</option>
+			  <option value='4'>الجزء الرابع</option>
+			  <option value='5'>الجزء الخامس</option>
+			  <option value='6'>الجزء السادس</option>
+			  <option value='7'>الجزء السايع</option>
+			  <option value='8'>الجزء الثامن</option>
+			  <option value='9'>الجزء التاسع</option>
+			  <option value='10'>الجزء العاشر</option>
+			  <option value='11'>الجزء الحادى عشر</option>
+			  <option value='12'>الجزء الثانى عشر</option>
+			  <option value='13'>الجزء الثالث عشر</option>
+			  <option value='14'>الجزء الرابع عشر</option>
+			  <option value='15'>الجزء الخامس عشر</option>
+			  <option value='16'>الجزء السادس عشر</option>
+			  <option value='17'>الجزء السابع عشر</option>
+			  <option value='18'>الجزء الثامن عشر</option>
+			  <option value='19'>الجزء التاسع عشر</option>
+			  <option value='20'>الجزء العشرون</option>
+			  <option value='21'>الجزء الواحد و العشرون</option>
+			  <option value='22'>الجزء الثلنى والعشرون</option>
+			  <option value='23'>الجزء الثالث والعشرون</option>
+			  <option value='24'>الجزء الرابع والعشرون</option>
+			  <option value='25'>الجزء الخامس والعشرون</option>
+			  <option value='26'>الجزء السادس والعشرون</option>
+			  <option value='27'>الجزء السايع والعشرون</option>
+			  <option value='28'>الجزء الثامن والعشرون</option>
+			  <option value='29'>الجزء التاسع والعشرون</option>
+			  <option value='30'>الجزء الثلاثون</option>
+			</select>
+		
+			<select id="hezblist" name="hezblist"  onchange="" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+			  <option selected value='0'>اختر الحزب</option>
+			  <option value='1'>الحزب الأول</option>
+			  <option value='2'>الحزب الثانى</option>
+			</select>
+			
+			<select id="quarterlist" name="quarterlist"  onchange="" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+			  <option selected value='0'>اختر الربع</option>
+			  <option value='1'>الربع الأول</option>
+			  <option value='2'>الربع الثانى</option>
+			  <option value='3'>الربع الثالث</option>
+			  <option value='4'>الربع الرابع</option>
+				
+			</select>
+			
+           </div>
+
+
 
 
 			<div>
@@ -99,12 +158,14 @@
 			
 			
 			
-</div>	
+
 
 	
 		
 	
 </form>
+</div>	
+</div>
 
 
 			
@@ -134,13 +195,12 @@
 </ul>
 
 </div>
+  
 
-			
-			
-	   
+
+
 
 </div>
 		
-</div>
 
-</div>
+
