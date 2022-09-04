@@ -181,7 +181,7 @@
 	  } else {
 	   document.getElementById("firstDiv").style.order = "2";
 	   document.getElementById("secondDiv").style.order = "1";
-	  document.getElementById("myCanvas").style = "border:1px solid #c3c3c3; float:right";
+	   document.getElementById("myCanvas").style = "border:1px solid #c3c3c3; float:right";
 	  
 	  }
      }
@@ -200,7 +200,25 @@
 	 }
   
   
-  
+    function fnSurahSelected() {
+     	 
+	var valueSelected = document.getElementById("surahlist").value ;
+    document.getElementById("surah").value = valueSelected ;
+	document.getElementById("to_ayah").value = {{ayahCount}}[valueSelected-1] ;
+	
+    }
+	
+	function fnSurahNumSelected() {
+     	 
+	var valueSelected = (parseInt(document.getElementById("surah").value) -1).toString() ;
+	//alert(valueSelected);
+    document.getElementById("surahlist").value = valueSelected ;
+	document.getElementById("to_ayah").value = {{ayahCount}}[valueSelected]  ;
+	
+    }
+	
+	
+
   
 </script> 
 
