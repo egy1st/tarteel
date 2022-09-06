@@ -39,6 +39,7 @@
 
 <script> 
   data_dic = {{data_dic|safe}} ;
+  parts_dic =  {{parts_dic|safe}} ;	 
   //console.log(data_dic);
 
   const img = document.getElementById("ayahImage"); 
@@ -46,7 +47,11 @@
   const myArray = coordsTextarea.value.split(":");
   let cur_ayah = myArray[1];
   cur_ayah = (parseInt(cur_ayah)-1).toString();
-  let basecur_ayah = cur_ayah;
+  const basecur_ayah = cur_ayah;
+  let surah = {{surah|int}} ;
+  const base_surah = surah;
+  let ayah_count = {{ayahCount|int}} ;
+  let surah_ayah_count =  {{ayahCount}}[surah-1] ;
   let repeat = {{repeat|int}};
   let selection_count = {{selection_count|int}};
   let ayah_repeat = {{ayah_repeat|int}};
@@ -75,8 +80,14 @@
 	 if  (audioPointer % ayah_repeat == 0) {
 	 
 	  audio_basePointer += 1 ;
-	  cur_ayah = (parseInt(cur_ayah) + 1).toString() ;
-	  coordsTextarea.value = myArray[0] + ":" + cur_ayah ;
+	  if (cur_ayah < surah_ayah_count) {
+	      cur_ayah = (parseInt(cur_ayah) + 1).toString() ;
+		  } else {
+		  cur_ayah = '1' ;
+		  surah += 1;
+		  surah_ayah_count =  {{ayahCount}}[surah-1] ;
+		  }
+	  coordsTextarea.value = surah + ":" + cur_ayah ;
 	  
 	 
 	  }
@@ -96,6 +107,7 @@
 		
 	 
 	 window.gPagePath =  "https://cdn.tarteel.net/ayat/N1/img/T2/02/" + data_dic[audio_basePointer]['page'] + ".jpg" ; //maa it works amazingly
+	 console.log(window.gPagePath)
 	 window.gData = data_dic[audio_basePointer]['data'];
 	 window.gValues = {{values}};
 	 reorderDiv(page);
@@ -110,11 +122,11 @@
 	audioPointer += 1;	 
 	//console.log(selection_count);
 	if (audioPointer % (selection_count * ayah_repeat) == 0 ) {
-	//alert(audioPointer, selection_count, ayah_repeat)
-	console.log(selection_count);
 	audioPointer =0;
 	audio_basePointer = 0;
 	cur_ayah = basecur_ayah;
+	surah = base_surah ;
+	surah_ayah_count =  {{ayahCount}}[surah-1] ;
 	}
 	 
 	console.log (audioPointer, tmp_scroller, scroller, scroller*ayah_repeat);
@@ -200,19 +212,38 @@
      	 
 	var valueSelected = document.getElementById("surahlist").value ;
     document.getElementById("surah").value = valueSelected ;
+	document.getElementById("ayah").value = '1' ;
 	document.getElementById("to_ayah").value = {{ayahCount}}[valueSelected-1] ;
+	document.getElementById("to_surah").value = valueSelected ;
 	
     }
 	
 	function fnSurahNumSelected() {
      	 
-	var valueSelected = (parseInt(document.getElementById("surah").value) -1).toString() ;
+	var valueSelected = (parseInt(document.getElementById("surah").value) ).toString() ;
     document.getElementById("surahlist").value = valueSelected ;
-	//alert(valueSelected);
-	document.getElementById("to_ayah").value = {{ayahCount}}[valueSelected]  ;
+	valueSelected_1 = (parseInt(valueSelected) -1).toString();
+	document.getElementById("ayah").value = '1'  ;
+	document.getElementById("to_ayah").value = {{ayahCount}}[valueSelected_1]  ;
 	
     }
 	
+	function fnPartChanged() {
+   
+	var valueSelected = parseInt(document.getElementById("partlist").value) ;
+	//alert(valueSelected);
+    document.getElementById("quarterlist").value = '1' ;
+	document.getElementById("hezblist").value = '1' ;
+
+
+	document.getElementById("ayah").value = parts_dic[valueSelected]['hezb1']['q1']['from_ayah']  ;
+	document.getElementById("surah").value = parts_dic[valueSelected]['hezb1']['q1']['from_surah']  ;
+	
+	document.getElementById("to_ayah").value = parts_dic[valueSelected]['hezb2']['q4']['to_ayah']  ;
+	document.getElementById("to_surah").value = parts_dic[valueSelected]['hezb2']['q4']['to_surah']  ;
+	
+	
+    }
 	
 
   

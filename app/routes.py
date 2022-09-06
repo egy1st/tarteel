@@ -155,6 +155,7 @@ def hefz():
     selection_count = 1
     radioReciters = {}
     TO_SCROLL = 640
+    ayah_pointer = 1
     
     surahNamesList = '' 
     for s in   range(len(surahNames)):
@@ -170,6 +171,7 @@ def hefz():
         reciter = reciter_mode[1]
         radioReciters[mode + "-" + reciter] = 'checked=""'
         to_ayah = request.form['to_ayah']
+        to_surah = request.form['to_surah']
         repeat = request.form['repeat']
         ayah_repeat = request.form['ayah_repeat']
         #print('mode', mode, 'reciter', reciter)
@@ -177,6 +179,8 @@ def hefz():
     elif request.method == 'GET':
         surah = request.args.get('surah')
         safah = request.args.get('safah')
+        to_ayah = request.args.get('to_ayah')
+        to_surah = request.args.get('to_surah')
         reciter = request.args.get('reciter')
         img_res = request.args.get('img_res')
         mode = request.args.get('mode')
@@ -201,6 +205,9 @@ def hefz():
         
     if to_ayah is None:
         to_ayah = str(ayahCount[int(surah)-1])
+        
+    if to_surah is None:
+        to_surah = surah   
             
     ayah_id = request.args.get('ayah_id')
     if ayah_id is None:
@@ -208,7 +215,7 @@ def hefz():
         
     toayah_id = request.args.get('toayah_id')
     if toayah_id is None:
-        toayah_id = surah + ":" + to_ayah
+        toayah_id = to_surah + ":" + to_ayah
         
     safahSelection = []   
     safah_dic = {} 
@@ -220,7 +227,6 @@ def hefz():
         
         safah_data_end = db_helper.get_safah_data_from_ayah_key(toayah_id, img_res)
         safah_end = int(safah_data_end[0]['page'])
-       
         ayah_pointer = 1
         safah_len = len(safah_data)
         ayah_start = safah_data[0]['ayah']
@@ -230,6 +236,7 @@ def hefz():
         safah_dic[ayah_pointer]['count'] = ayah_count
         safah_dic[ayah_pointer]['data'] = safah_data
         safah_dic[ayah_pointer]['page'] = safah
+        print(safah, ayah_count)
         
         half_found = False
         for pos in safah_data: #522 583 643
@@ -239,10 +246,8 @@ def hefz():
                     break
                 maxY_pos = pos['max_y']
                 if maxY_pos >= TO_SCROLL:
-                    print(pos)
                     half_found = True
                     halfY = ayah_pos
-                    
                     
         safah_dic[ayah_pointer]['scroll'] = int(halfY) - int(ayah)
         #print(halfY, ayah, int(halfY) - int(ayah))
@@ -254,12 +259,20 @@ def hefz():
             safah_len = len(safah_next)
             ayah_start = safah_next[0]['ayah']
             ayah_end = safah_next[safah_len -1]['ayah']
-            ayah_count = (int(ayah_end) -  int(ayah_start)) + 1
                   
             safah_dic[ayah_pointer] = {}
+            if i == safah_end:
+                ayah_count = (int(to_ayah) -  int(ayah_start)) + 1
+                print(i, ayah_count, 'defined')
+            else:
+                ayah_count = (int(ayah_end) -  int(ayah_start)) + 1
+                print(i, ayah_count, 'last')
+               
+                
             safah_dic[ayah_pointer]['count'] = ayah_count
             safah_dic[ayah_pointer]['data'] = safah_next
             safah_dic[ayah_pointer]['page'] = i
+            print(i, ayah_count)
             
             half_found = False
             for pos in safah_next:
@@ -285,7 +298,9 @@ def hefz():
         #print(safah, ayah, to_ayah)
 
 
-    selection_count = (int(to_ayah) - int(ayah)) + 1 
+    selection_count = ayah_pointer-1 # it points now to the count 
+    print(selection_count)
+    #print(safah_dic)
     
     get_Device()
     TPL = get_Device()
@@ -340,15 +355,34 @@ def hefz():
  
             
     to_repeat = ""
+    n_times = (int(to_surah) - int(surah)) + 1
     for r in range (int(repeat)):
-        for i in range (int(ayah), int(to_ayah)+1):
-            for a in range(int(ayah_repeat)):
+        for s in range(int(surah), int(to_surah)+1):
+            _surahfill = uniformNumber(str(s))
+            if n_times == 1:
+                _ayah= ayah
+                _toayah =   to_ayah
+            elif  n_times > 1 and s ==  int(surah) :
+                _ayah = ayah
+                _toayah =   str(ayahCount[int(s)-1])
+            elif  n_times > 1 and s ==  int(to_surah) :
+                _ayah = '1'
+                _toayah =   to_ayah
+            elif  n_times > 1 and s > int(surah) and s < int(to_surah) :
+                _ayah = '1'
+                _toayah =   str(ayahCount[int(s)-1])     
+            
+            print(s, _ayah, _toayah)
+            for i in range (int(_ayah), int(_toayah)+1):
                 ayah_fill = uniformNumber(str(i))
-                ayah_i =  "https://cdn.tarteel.net/ayat/N1/mp3/" + mode + "/" + reciter + "/" + surah_fill + ayah_fill + ".mp3"
-                to_repeat +=  "'" + ayah_i + "'" + ", "
+                for a in range(int(ayah_repeat)):
+                    ayah_i =  "https://cdn.tarteel.net/ayat/N1/mp3/" + mode + "/" + reciter + "/" + _surahfill + ayah_fill + ".mp3"
+                    to_repeat +=  "'" + ayah_i + "'" + ", "
          
-    
-    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data,  data_dic=safah_dic, highlight=ayah_id, resolution=resolution, to_repeat=to_repeat, safah=safah, repeat=repeat, stage_0=stage_0, to_ayah=to_ayah, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList=surahNamesList, ayahCount=ayahCount )
+    #print(to_repeat)
+    #print(safah_dic.keys())
+   
+    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data,  data_dic=safah_dic, highlight=ayah_id, resolution=resolution, to_repeat=to_repeat, safah=safah, repeat=repeat, stage_0=stage_0, to_ayah=to_ayah, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList=surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah )
     
     
 @app.route('/' )
@@ -436,7 +470,7 @@ def index(ayah='1', to_ayah='1', surah='2', reciter='06', mode='R1', narration='
         
     resolution = get_page_resolution(img_res, safah)
 
-    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, to_ayah=to_ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data, highlight=ayah_id, resolution=resolution, safah=safah, stage_0=stage_0, repeat=repeat, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList= surahNamesList, ayahCount=ayahCount)
+    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, to_ayah=to_ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data, highlight=ayah_id, resolution=resolution, safah=safah, stage_0=stage_0, repeat=repeat, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList= surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -524,6 +558,54 @@ def contactus():
 ayahCount = [7, 286, 200, 176, 120, 165, 206, 75, 129, 109, 123, 111, 43, 52, 99, 128, 111, 110, 98, 135, 112, 78, 118, 64, 77, 227, 93, 88, 69, 60, 34, 30, 73, 54, 45, 83, 182, 88, 75, 85, 54, 53, 89, 59, 37, 35, 38, 29, 18, 45, 60, 49, 62, 55, 78, 96, 29, 22, 24, 13, 14, 11, 11, 18, 12, 12, 30, 52, 52, 44, 28, 28, 20, 56, 40, 31, 50, 40, 46, 42, 29, 19, 36, 25, 22, 17, 19, 26, 30, 20, 15, 21, 11, 8, 8, 19, 5, 8, 8, 11, 11, 8, 3, 9, 5, 4, 7, 3, 6, 3, 5, 4, 5, 6]
 
 surahNames = ["الفاتحة", "البقرة", "آل عمران", "النساء", "المائدة", "الأنعام", "الأعراف", "الأنفال", "التوبة", "يونس", "هود", "يوسف", "الرعد", "إبراهيم", "الحجر", "النحل", "الإسراء", "الكهف", "مريم", "طه", "الأنبياء", "الحج", "المؤمنون", "النور", "الفرقان", "الشعراء", "النمل", "القصص", "العنكبوت", "الروم", "لقمان", "السجدة", "سورة الأحزاب", "سبأ", "فاطر", "يس", "الصافات", "ص", "الزمر", "غافر", "فصلت", "الشورى", "الزخرف", "الدخان", "الجاثية", "الأحقاف", "محمد", "الفتح", "الحجرات", "ق", "الذاريات", "الطور", "النجم", "القمر", "الرحمن", "الواقعة", "الحديد", "المجادلة", "الحشر", "الممتحنة", "الصف", "الجمعة", "المنافقون", "التغابن", "الطلاق", "التحريم", "الملك", "القلم", "الحاقة", "المعارج", "نوح", "الجن", "المزمل", "المدثر", "القيامة", "الإنسان", "المرسلات", "النبأ", "النازعات", "عبس", "التكوير", "الانفطار", "المطففين", "الإنشقاق", "البروج", "الطارق", "الأعلى", "الغاشية", "الفجر", "البلد", "الشمس", "الليل", "الضحى", "الشرح", "التين", "العلق", "القدر", "البينة", "الزلزلة", "العاديات", "القارعة", "التكاثر", "العصر", "الهمزة", "الفيل", "قريش", "الماعون", "الكوثر", "الكافرون", "النصر", "المسد", "الإخلاص", "الفلق", "الناس"]
+
+parts_dic = {
+1: {'hezb1': {  'q1': {'from_ayah':1, 'from_surah':1, 'from_page':1, 'to_ayah':25, 'to_surah':2, 'to_page':5},
+                'q2': {'from_ayah':26, 'from_surah':2, 'from_page':5, 'to_ayah':43, 'to_surah':2, 'to_page':7},
+                'q3': {'from_ayah':44, 'from_surah':2, 'from_page':7, 'to_ayah':59, 'to_surah':2, 'to_page':9},
+                'q4': {'from_ayah':60, 'from_surah':2, 'from_page':9, 'to_ayah':74, 'to_surah':2, 'to_page':11} },
+                
+    'hezb2': {  'q1': {'from_ayah':75, 'from_surah':2, 'from_page':11, 'to_ayah':91, 'to_surah':2, 'to_page':14},
+                'q2': {'from_ayah':92, 'from_surah':2, 'from_page':14, 'to_ayah':105, 'to_surah':2, 'to_page':16},
+                'q3': {'from_ayah':106, 'from_surah':2, 'from_page':17, 'to_ayah':123, 'to_surah':2, 'to_page':19},
+                'q4': {'from_ayah':124, 'from_surah':2, 'from_page':19, 'to_ayah':141, 'to_surah':2, 'to_page':21} } },              
+                
+2: {'hezb1': { 'q1': {'from_ayah':142, 'from_surah':2, 'from_page':22, 'to_ayah':157, 'to_surah':2, 'to_page':24},
+                'q2': {'from_ayah':158, 'from_surah':2, 'from_page':24, 'to_ayah':176, 'to_surah':2, 'to_page':26},
+                'q3': {'from_ayah':177, 'from_surah':2, 'from_page':27, 'to_ayah':188, 'to_surah':2, 'to_page':29},
+                'q4': {'from_ayah':189, 'from_surah':2, 'from_page':29, 'to_ayah':202, 'to_surah':2, 'to_page':31} },
+                
+    'hezb2': {  'q1': {'from_ayah':203, 'from_surah':2, 'from_page':32, 'to_ayah':218, 'to_surah':2, 'to_page':34},
+                'q2': {'from_ayah':219, 'from_surah':2, 'from_page':34, 'to_ayah':232, 'to_surah':2, 'to_page':37},
+                'q3': {'from_ayah':233, 'from_surah':2, 'from_page':37, 'to_ayah':242, 'to_surah':2, 'to_page':39},
+                'q4': {'from_ayah':243, 'from_surah':2, 'from_page':39, 'to_ayah':252, 'to_surah':2, 'to_page':41} } },   
+
+3: {'hezb1': {  'q1': {'from_ayah':253, 'from_surah':2, 'from_page':42, 'to_ayah':262, 'to_surah':2, 'to_page':44},
+                'q2': {'from_ayah':263, 'from_surah':2, 'from_page':44, 'to_ayah':271, 'to_surah':2, 'to_page':46},
+                'q3': {'from_ayah':272, 'from_surah':2, 'from_page':46, 'to_ayah':282, 'to_surah':2, 'to_page':48},
+                'q4': {'from_ayah':283, 'from_surah':2, 'from_page':49, 'to_ayah':14, 'to_surah':3, 'to_page':51} },
+                
+    'hezb2': {  'q1': {'from_ayah':15, 'from_surah':3, 'from_page':51, 'to_ayah':32, 'to_surah':3, 'to_page':54},
+                'q2': {'from_ayah':33, 'from_surah':3, 'from_page':54, 'to_ayah':51, 'to_surah':3, 'to_page':56},
+                'q3': {'from_ayah':52, 'from_surah':3, 'from_page':56, 'to_ayah':74, 'to_surah':3, 'to_page':59},
+                'q4': {'from_ayah':75, 'from_surah':3, 'from_page':59, 'to_ayah':91, 'to_surah':3, 'to_page':61} } }, 
+ 
+4: {'hezb1': {  'q1': {'from_ayah':92, 'from_surah':3, 'from_page':62, 'to_ayah':112, 'to_surah':3, 'to_page':64},
+                'q2': {'from_ayah':113, 'from_surah':3, 'from_page':64, 'to_ayah':132, 'to_surah':3, 'to_page':66},
+                'q3': {'from_ayah':133, 'from_surah':3, 'from_page':67, 'to_ayah':152, 'to_surah':3, 'to_page':69},
+                'q4': {'from_ayah':153, 'from_surah':3, 'from_page':69, 'to_ayah':170, 'to_surah':3, 'to_page':72} },
+                
+    'hezb2': {  'q1': {'from_ayah':171, 'from_surah':3, 'from_page':72, 'to_ayah':185, 'to_surah':3, 'to_page':74},
+                'q2': {'from_ayah':186, 'from_surah':3, 'from_page':74, 'to_ayah':200, 'to_surah':3, 'to_page':76},
+                'q3': {'from_ayah':1, 'from_surah':4, 'from_page':77, 'to_ayah':11, 'to_surah':4, 'to_page':78},
+                'q4': {'from_ayah':12, 'from_surah':4, 'from_page':79, 'to_ayah':23, 'to_surah':4, 'to_page':81} } }, 
+                
+ 
+}
+
+                
+
+
 
 pages = {
 1: {'surah':1, 'from':1, 'to':7},

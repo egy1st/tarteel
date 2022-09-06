@@ -36,7 +36,7 @@
 	
 <div>
 				
-<br>				
+			
 					
 						
 <div class="mx-left max-w-md bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
@@ -46,20 +46,9 @@
             {% include 'reciters.html' %}	
 			<br>
 			
-            <div class="grid gap-6 mb-6 md:grid-cols-2">
-			<div>
-				<label for="surah_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">رقم السورة</label>
-				<input onChange="fnSurahNumSelected();" type="text" id="surah" name="surah" value="{{surah}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="2" placeholder="" required>
-			</div>
-			
-	
-			<select id="surahlist" name="surahlist"  onchange="fnSurahSelected();" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-			  {{surahNamesList|safe}}
-			</select>
-		    </div>
 			
             <div class="grid gap-6 mb-6 md:grid-cols-3">
-			<select id="partlist" name="partlist"  onchange="" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+			<select id="partlist" name="partlist"  onChange="fnPartChanged();" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
 			  <option selected value='0'>اختر الجزء</option>
 			  <option value='1'>الجزء الأول</option>
 			  <option value='2'>الجزء الثانى</option>
@@ -115,27 +104,45 @@
 
 			<div>
 				<label for="safah" class="hidden block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">صفحة التلاوة</label>
-				<input onfocusout="" type="text" id="safh" name="safah" value="" class="hidden bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="" placeholder="">
+				<input onfocusout="" type="text" id="safh" name="safah" value="" class="hidden bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
 			</div>
-			<div class="grid gap-6 mb-6 md:grid-cols-2">
+			
+			 <div class="grid gap-6 mb-6 md:grid-cols-3">
 			<div>
-				<label for="ayah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">من آية</label>
-				<input onChange="" type="text" id="ayah"  name="ayah" value="{{ayah}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="" placeholder="" >
+				<label for="ayah_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">من آية</label>
+				<input onChange="" type="text" id="ayah"  name="ayah" value="{{ayah}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
 			</div>
 			<div>
-				<label for="to_ayah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">حتى آية</label>
-				<input onChange="" type="text" id="to_ayah" name="to_ayah" value="{{to_ayah}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="" placeholder="" >
+				<label for="surah_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">رقم السورة</label>
+				<input onChange="" type="text" id="surah" name="surah" value="{{surah}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
 			</div>
+			
+	
+			<select id="surahlist" name="surahlist"  onchange="fnSurahSelected();" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+			  {{surahNamesList|safe}}
+			</select>
+		    </div>
+			
+			<div class="grid gap-6 mb-6 md:grid-cols-3">
+			<div>
+				<label for="to_ayah_lablel" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">حتى آية</label>
+				<input onChange="" type="text" id="to_ayah" name="to_ayah" value="{{to_ayah}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
+			</div>
+			<div>
+				<label for="surah_label2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">رقم السورة</label>
+				<input onChange="" type="text" id="to_surah" name="to_surah"  value="{{to_surah}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
+			</div>
+			
 			</div>
 			
 			<div class="grid gap-6 mb-6 md:grid-cols-2">
 			<div>
 				<label for="repeat" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> تكرار المقطع</label>
-				<input onChange="" type="text" id="repeat"  name="repeat" value="{{repeat}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="" placeholder="" >
+				<input onChange="" type="text" id="repeat"  name="repeat" value="{{repeat}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
 			</div>
 			<div>
 				<label for="ayah_repeat" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> تكرار الآية </label>
-				<input onfocusout="" type="text" id="ayah_repeat" name="ayah_repeat" value="{{ayah_repeat}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="" placeholder="" >
+				<input onfocusout="" type="text" id="ayah_repeat" name="ayah_repeat" value="{{ayah_repeat}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
 			</div>
 				
 			</div>
