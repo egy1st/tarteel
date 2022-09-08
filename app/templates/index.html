@@ -76,7 +76,7 @@
 	  //console.log(coordsTextarea.value);
 	  
 	  
-	  
+	 console.log(audioPointer); 
 	 if  (audioPointer % ayah_repeat == 0) {
 	 
 	  audio_basePointer += 1 ;
@@ -92,7 +92,7 @@
 	 
 	  }
 	  
-	  console.log(audioPointer, audio_basePointer); 
+	  //console.log(audioPointer, audio_basePointer); 
 	  onRefreshPress();
 	 
 	 
@@ -107,7 +107,7 @@
 		
 	 
 	 window.gPagePath =  "https://cdn.tarteel.net/ayat/N1/img/T2/02/" + data_dic[audio_basePointer]['page'] + ".jpg" ; //maa it works amazingly
-	 console.log(window.gPagePath)
+	 //console.log(window.gPagePath)
 	 window.gData = data_dic[audio_basePointer]['data'];
 	 window.gValues = {{values}};
 	 reorderDiv(page);
@@ -119,17 +119,21 @@
  
 	} 
 	
+	console.log(audioPointer, scroller);
 	audioPointer += 1;	 
+
 	//console.log(selection_count);
+	console.log(selection_count);
 	if (audioPointer % (selection_count * ayah_repeat) == 0 ) {
 	audioPointer =0;
 	audio_basePointer = 0;
 	cur_ayah = basecur_ayah;
 	surah = base_surah ;
 	surah_ayah_count =  {{ayahCount}}[surah-1] ;
+	console.log(scroller);
 	}
 	 
-	console.log (audioPointer, tmp_scroller, scroller, scroller*ayah_repeat);
+	//console.log (audioPointer, tmp_scroller, scroller, scroller*ayah_repeat);
 	if (tmp_scroller > (scroller*ayah_repeat ) ) {
 		 scrollMe("Bottom");
 		}

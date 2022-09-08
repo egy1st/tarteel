@@ -5,34 +5,6 @@
 </div>
 
 
-
-<div class="mx-left max-w-md bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-
-<h3 class="mb-5 text-lg font-medium text-gray-900 dark:text-white">التنقل بين الآيات</h3>
-<ul class="grid gap-6 w-full md:grid-cols-3">
-    <li>
-		<button id="next" type="button" onClick="window.location.href='{{ url_for('index', surah=surah, ayah=next_ayah, reciter=reciter) }}'" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-		 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd"></path></svg>
-		  <span class="sr-only">Icon description</span>
-		</button>
-		 </li><li>	
-			 <button id="run" type="button" onClick="var sound = new Audio('{{STATIC_URL}}ayat/{{narration}}/mp3/{{mode}}/{{reciter}}/{{surah_fill}}{{ayah_fill}}.mp3'); sound.play();" class="text-white bg-red-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-			<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
-			 <span class="sr-only">Icon description</span>
-			</button>
-		 </li><li>		
-			<button id="prev" type="button" onClick="window.location.href='{{ url_for('index', surah=surah, ayah=prev_ayah, reciter=reciter) }}'" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-			  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z" clip-rule="evenodd"></path></svg>
-			  <span class="sr-only">Icon description</span>
-			</button>
-            </li>
-			</ul>
-			<br>
- </div>
-			
-
-
-
 	
 <div>
 				
@@ -150,7 +122,7 @@
 			
 			
 			<div class="grid gap-6 mb-6 md:grid-cols-2">
-			<button type="submit"  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><b>(1)</b><br>  اعداد</button>
+			<button type="submit"  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><b>(1)</b><br>  تجهيز</button>
 			
 			<button type="button" id="startButton" name="startButton" onClick="" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><b>(2)</b><br> تشغيل</button>
 			
@@ -165,6 +137,31 @@
 			
 			
 			
+<div class="mx-left max-w-md bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+
+<h3 class="mb-5 text-lg font-medium text-gray-900 dark:text-white">التنقل بين الآيات</h3>
+<ul class="grid gap-6 w-full md:grid-cols-3">
+    <li>
+		<button id="next" type="button" onClick="window.location.href='{{ url_for('index', surah=surah, ayah=next_ayah, reciter=reciter) }}'" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+		 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd"></path></svg>
+		  <span class="sr-only">Icon description</span>
+		</button>
+		 </li><li>	
+			 <button id="run" type="button" onClick="var sound = new Audio('{{STATIC_URL}}ayat/{{narration}}/mp3/{{mode}}/{{reciter}}/{{surah_fill}}{{ayah_fill}}.mp3'); sound.play();" class="text-white bg-red-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+			<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+			 <span class="sr-only">Icon description</span>
+			</button>
+		 </li><li>		
+			<button id="prev" type="button" onClick="window.location.href='{{ url_for('index', surah=surah, ayah=prev_ayah, reciter=reciter) }}'" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+			  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z" clip-rule="evenodd"></path></svg>
+			  <span class="sr-only">Icon description</span>
+			</button>
+            </li>
+			</ul>
+			<br>
+ </div>
+			
+
 
 
 	

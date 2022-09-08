@@ -154,7 +154,7 @@ def hefz():
     halfY = '1'
     selection_count = 1
     radioReciters = {}
-    TO_SCROLL = 580
+    TO_SCROLL = 640
     ayah_pointer = 1
     
     surahNamesList = '' 
@@ -250,7 +250,8 @@ def hefz():
                         a_prev = a_
                  
             ayah_count =  a_tot 
-       
+            print('sub count', ayah_count)            
+        
        
         selection_count = ayah_count
         safah_dic[ayah_pointer] = {}
@@ -260,21 +261,18 @@ def hefz():
         #print(safah, ayah_end, ayah, ayah_count, 'only one')
         
         half_found = False
-        n_ = 0
         for pos in safah_data: #522 583 643
-          if half_found == True:
-                break
-          else:      
-                if  int(pos['sura']) > int(surah) or (int(pos['sura']) == int(surah)  and  int(pos['ayah']) >= int(ayah)):
-                    n_ += 1
-              
+                ayah_pos = pos['ayah'] + pos['sura']
+                #print(half_found, ayah_pos, halfY, ayah_pos != halfY)
+                if half_found == True and ayah_pos != halfY:
+                    break
                 maxY_pos = pos['max_y']
                 if maxY_pos >= TO_SCROLL:
                     half_found = True
+                    halfY = ayah_pos
                     
-                    
-        safah_dic[ayah_pointer]['scroll'] = n_ #int(halfY) - int(ayah)
-        print('nnnn' , n_)
+        safah_dic[ayah_pointer]['scroll'] = int(halfY) - int(ayah)
+        #print(halfY, ayah, int(halfY) - int(ayah))
         ayah_pointer += ayah_count
         print(selection_count, 'selection_count')
         print('safah: ' , safah, safah_end)    
@@ -304,7 +302,8 @@ def hefz():
                             a_tot += 1
                             a_prev = a_
                 ayah_count =  a_tot 
-          
+                print('inner loop sub count', ayah_count)   
+            
            
                 
             safah_dic[ayah_pointer]['count'] = ayah_count
@@ -312,19 +311,17 @@ def hefz():
             safah_dic[ayah_pointer]['page'] = i
             print(i, ayah_count)
             
-            #n_ = 0
-            for pos in safah_next: #522 583 643
-              if half_found == True:
+            half_found = False
+            for pos in safah_next:
+                ayah_pos = pos['ayah'] + pos['sura']
+                if half_found == True and ayah_pos != halfY:
                     break
-              else:      
-                     if int(safah_next[c_]['sura']) < int(to_surah) or (int(pos['sura']) == int(to_surah)  and  int(pos['ayah'] <= int(to_ayah) )):
-                        n_ += 1
-                  
-                     maxY_pos = pos['max_y']
-                     if maxY_pos >= TO_SCROLL:
-                        half_found = True
+                maxY_pos = pos['max_y']
+                if maxY_pos >= TO_SCROLL:
+                    half_found = True
+                    halfY = ayah_pos
             
-            safah_dic[ayah_pointer]['scroll'] = n_ #int(halfY) - int(ayah_start) 
+            safah_dic[ayah_pointer]['scroll'] = int(halfY) - int(ayah_start) 
             ayah_pointer += ayah_count
             selection_count += ayah_count
             print('selection_count all loop', selection_count)
