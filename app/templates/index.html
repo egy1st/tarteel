@@ -234,20 +234,116 @@
 	
 	function fnPartChanged() {
    
-	var valueSelected = parseInt(document.getElementById("partlist").value) ;
+	var partSelected = parseInt(document.getElementById("partlist").value) ;
 	//alert(valueSelected);
-    document.getElementById("quarterlist").value = '1' ;
-	document.getElementById("hezblist").value = '1' ;
+    //document.getElementById("quarterlist").value = '1' ;
+	//document.getElementById("hezblist").value = '1' ;
 
 
-	document.getElementById("ayah").value = parts_dic[valueSelected]['hezb1']['q1']['from_ayah']  ;
-	document.getElementById("surah").value = parts_dic[valueSelected]['hezb1']['q1']['from_surah']  ;
+	document.getElementById("ayah").value = parts_dic[partSelected]['hezb1']['q1']['from_ayah']  ;
+	document.getElementById("surah").value = parts_dic[partSelected]['hezb1']['q1']['from_surah']  ;
 	
-	document.getElementById("to_ayah").value = parts_dic[valueSelected]['hezb2']['q4']['to_ayah']  ;
-	document.getElementById("to_surah").value = parts_dic[valueSelected]['hezb2']['q4']['to_surah']  ;
+	document.getElementById("to_ayah").value = parts_dic[partSelected]['hezb2']['q4']['to_ayah']  ;
+	document.getElementById("to_surah").value = parts_dic[partSelected]['hezb2']['q4']['to_surah']  ;
 	
 	
     }
+	
+	function fnHezbChanged() {
+		var partSelected = parseInt(document.getElementById("partlist").value)
+		var hezbSelected = parseInt(document.getElementById("hezblist").value) ;
+		//alert(valueSelected);
+		//document.getElementById("quarterlist").value = '1' ;
+		//document.getElementById("hezblist").value = '1' ;
+
+		if (hezbSelected == 1) {
+			document.getElementById("ayah").value = parts_dic[partSelected]['hezb1']['q1']['from_ayah']  ;
+			document.getElementById("surah").value = parts_dic[partSelected]['hezb1']['q1']['from_surah']  ;
+			
+			document.getElementById("to_ayah").value = parts_dic[partSelected]['hezb1']['q4']['to_ayah']  ;
+			document.getElementById("to_surah").value = parts_dic[partSelected]['hezb1']['q4']['to_surah']  ;
+		}
+		
+		else if (hezbSelected == 2) {
+			document.getElementById("ayah").value = parts_dic[partSelected]['hezb2']['q1']['from_ayah']  ;
+			document.getElementById("surah").value = parts_dic[partSelected]['hezb2']['q1']['from_surah']  ;
+			
+			document.getElementById("to_ayah").value = parts_dic[partSelected]['hezb2']['q4']['to_ayah']  ;
+			document.getElementById("to_surah").value = parts_dic[partSelected]['hezb2']['q4']['to_surah']  ;
+		}
+		
+		else if (hezbSelected == 3) {
+			document.getElementById("ayah").value = parts_dic[partSelected]['hezb1']['q1']['from_ayah']  ;
+			document.getElementById("surah").value = parts_dic[partSelected]['hezb1']['q1']['from_surah']  ;
+			
+			document.getElementById("to_ayah").value = parts_dic[partSelected]['hezb2']['q4']['to_ayah']  ;
+			document.getElementById("to_surah").value = parts_dic[partSelected]['hezb2']['q4']['to_surah']  ;
+		}
+	
+	
+    }
+	
+	
+	function fnQuarterChanged() {
+	
+		var partSelected = parseInt(document.getElementById("partlist").value)
+		var hezbSelected = parseInt(document.getElementById("hezblist").value) ;
+		var quarterSelected = parseInt(document.getElementById("hezblist").value) ;
+		let hezb = 'hezb1' ;
+		//alert(valueSelected);
+		//document.getElementById("quarterlist").value = '1' ;
+		//document.getElementById("hezblist").value = '1' ;
+		if (hezbSelected == 1) {
+			hezb == 'hezb1' ;
+		} else if (hezbSelected == 2) {
+			hezb == 'hezb2' ;
+			}
+
+		if (quarterSelected == 1) {
+			document.getElementById("ayah").value = parts_dic[partSelected][hezb]['q1']['from_ayah']  ;
+			document.getElementById("surah").value = parts_dic[partSelected][hezb]['q1']['from_surah']  ;
+			
+			document.getElementById("to_ayah").value = parts_dic[partSelected][hezb]['q1']['to_ayah']  ;
+			document.getElementById("to_surah").value = parts_dic[partSelected][hezb]['q1']['to_surah']  ;
+		}
+		
+		else if (quarterSelected == 2) {
+			document.getElementById("ayah").value = parts_dic[partSelected][hezb]['q2']['from_ayah']  ;
+			document.getElementById("surah").value = parts_dic[partSelected][hezb]['q2']['from_surah']  ;
+			
+			document.getElementById("to_ayah").value = parts_dic[partSelected][hezb]['q2']['to_ayah']  ;
+			document.getElementById("to_surah").value = parts_dic[partSelected][hezb]['q2']['to_surah']  ;
+		}
+		
+		else if (quarterSelected == 3) {
+			document.getElementById("ayah").value = parts_dic[partSelected][hezb]['q3']['from_ayah']  ;
+			document.getElementById("surah").value = parts_dic[partSelected][hezb]['q3']['from_surah']  ;
+			
+			document.getElementById("to_ayah").value = parts_dic[partSelected][hezb]['q3']['to_ayah']  ;
+			document.getElementById("to_surah").value = parts_dic[partSelected][hezb]['q3']['to_surah']  ;
+		}
+		
+		else if (quarterSelected == 4) {
+			document.getElementById("ayah").value = parts_dic[partSelected][hezb]['q4']['from_ayah']  ;
+			document.getElementById("surah").value = parts_dic[partSelected][hezb]['q4']['from_surah']  ;
+			
+			document.getElementById("to_ayah").value = parts_dic[partSelected][hezb]['q4']['to_ayah']  ;
+			document.getElementById("to_surah").value = parts_dic[partSelected][hezb]['q4']['to_surah']  ;
+		}
+		
+		
+		else if (quarterSelected == 10) {
+			document.getElementById("ayah").value = parts_dic[partSelected][hezb]['q1']['from_ayah']  ;
+			document.getElementById("surah").value = parts_dic[partSelected][hezb]['q1']['from_surah']  ;
+			
+			document.getElementById("to_ayah").value = parts_dic[partSelected][hezb]['q4']['to_ayah']  ;
+			document.getElementById("to_surah").value = parts_dic[partSelected][hezb]['q4']['to_surah']  ;
+		}
+		
+		
+	
+    }
+	
 	
 
   

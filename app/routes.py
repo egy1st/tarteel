@@ -261,14 +261,19 @@ def hefz():
         
         half_found = False
         n_ = 0
+        a_prev = '288'
         for pos in safah_data: #522 583 643
           if half_found == True:
                 break
-          else:      
+          else:   
                 if  int(pos['sura']) > int(surah) or (int(pos['sura']) == int(surah)  and  int(pos['ayah']) >= int(ayah)):
-                    n_ += 1
+                    a_ = pos['ayah']
+                    if a_ != a_prev:
+                         n_ += 1
+                         a_prev =  a_
               
                 maxY_pos = pos['max_y']
+                print('maxY_pos', maxY_pos, n_)
                 if maxY_pos >= TO_SCROLL:
                     half_found = True
                     
@@ -312,13 +317,19 @@ def hefz():
             safah_dic[ayah_pointer]['page'] = i
             print(i, ayah_count)
             
-            #n_ = 0
+            n_ = 0
+            half_found = False
+            a_prev = '288'
             for pos in safah_next: #522 583 643
               if half_found == True:
                     break
-              else:      
-                     if int(safah_next[c_]['sura']) < int(to_surah) or (int(pos['sura']) == int(to_surah)  and  int(pos['ayah'] <= int(to_ayah) )):
-                        n_ += 1
+              else:  
+                     #print( int(pos['ayah'],  int(to_ayah) ) )              
+                     if int(pos['sura']) < int(to_surah) or (int(pos['sura']) == int(to_surah)  and  int(pos['ayah'] <= int(to_ayah) )):
+                         a_ = pos['ayah']
+                         if a_ != a_prev:
+                             n_ += 1
+                             a_prev =  a_
                   
                      maxY_pos = pos['max_y']
                      if maxY_pos >= TO_SCROLL:
@@ -431,7 +442,7 @@ def hefz():
 @app.route('/<surah>/<ayah>')
 @app.route('/<surah>/<ayah>.html')
 #@mobile_template('/{mobile/}' + USER_LANG + '_index.html')
-def index(ayah='1', to_ayah='1', surah='2', reciter='06', mode='R1', narration='N1', img_mode='T1', img_type='01', ayah_id="1:1", img_res='1053', stage_0 = 0, safah='', repeat='1', selection_count = '1', ayah_repeat='1',  radioReciters = {}):
+def index(ayah='1', to_ayah='1', surah='1', to_surah= '1', reciter='06', mode='R1', narration='N1', img_mode='T1', img_type='01', ayah_id="1:1", img_res='1053', stage_0 = 0, safah='', repeat='1', selection_count = '1', ayah_repeat='1',  radioReciters = {}):
     
         
     surahNamesList = '' 
@@ -447,8 +458,12 @@ def index(ayah='1', to_ayah='1', surah='2', reciter='06', mode='R1', narration='
     img_mode = request.args.get('img_mode')
     img_type = request.args.get('img_type')
     repeat = request.args.get('repeat')
+    to_surah = request.args.get('to_surah')
     
-             
+    
+    if to_surah is None:
+        to_surah = surah   
+        
     if narration is None:
         narration='N1'
     if mode is None:
@@ -511,7 +526,7 @@ def index(ayah='1', to_ayah='1', surah='2', reciter='06', mode='R1', narration='
         
     resolution = get_page_resolution(img_res, safah)
 
-    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, to_ayah=to_ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data, highlight=ayah_id, resolution=resolution, safah=safah, stage_0=stage_0, repeat=repeat, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList= surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic)
+    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, to_ayah=to_ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data, highlight=ayah_id, resolution=resolution, safah=safah, stage_0=stage_0, repeat=repeat, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList= surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah)
 
 
 @app.route('/login', methods=['GET', 'POST'])
