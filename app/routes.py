@@ -190,6 +190,9 @@ def hefz():
         img_type = request.args.get('img_type')
         repeat = request.args.get('repeat')
         ayah_repeat = request.args.get('ayah_repeat')
+        part = request.args.get('part')
+        hezb = request.args.get('hezb')
+        quarter = request.args.get('quarter')
      
         
     if img_res is None:
@@ -214,6 +217,13 @@ def hefz():
     toayah_id = request.args.get('toayah_id')
     if toayah_id is None:
         toayah_id = to_surah + ":" + to_ayah
+        
+    if part == '':
+            part = "1"
+    if hezb == '':
+        hezb = "1"        
+    if quarter == '':
+        quarter = "1"  
         
     safahSelection = []   
     safah_dic = {} 
@@ -401,8 +411,15 @@ def hefz():
         page_path = static_helper.get_image_path_from_safah(safah, img_res)  
     
     resolution = get_page_resolution(img_res, safah)
- 
-            
+    
+    page_position = ['', ''] 
+    if safah % 2 == 0:
+        page_position[0] = 'left'
+        page_position[1] = 'right'
+    else:
+        page_position[0] = 'right'
+        page_position[1] = 'left'
+        
     to_repeat = ""
     n_times = (int(to_surah) - int(surah)) + 1
     for r in range (int(repeat)):
@@ -431,7 +448,7 @@ def hefz():
     #print(to_repeat)
     #print(safah_dic.keys())
    
-    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data,  data_dic=safah_dic, highlight=ayah_id, resolution=resolution, to_repeat=to_repeat, safah=safah, repeat=repeat, stage_0=stage_0, to_ayah=to_ayah, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList=surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah, QuranParts=QuranParts, part=part, hezb=hezb, quarter=quarter )
+    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data,  data_dic=safah_dic, highlight=ayah_id, resolution=resolution, to_repeat=to_repeat, safah=safah, repeat=repeat, stage_0=stage_0, to_ayah=to_ayah, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList=surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah, QuranParts=QuranParts, part=part, hezb=hezb, quarter=quarter, page_position=page_position )
     
     
 @app.route('/' )
@@ -523,10 +540,17 @@ def index(ayah='1', to_ayah='1', surah='1', to_surah= '1', reciter='06', mode='R
         page_path =  "https://cdn.tarteel.net/ayat/N1/img/T2/02/" + str(safah) + ".jpg" ;
     else:
         page_path = static_helper.get_image_path_from_safah(safah, img_res)     
+    page_position = ['', '']
+    if safah % 2 == 0:
+        page_position[0] = 'left'
+        page_position[1] = 'right'
+    else:
+        page_position[0] = 'right'
+        page_position[1] = 'left'
         
     resolution = get_page_resolution(img_res, safah)
 
-    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, to_ayah=to_ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data, highlight=ayah_id, resolution=resolution, safah=safah, stage_0=stage_0, repeat=repeat, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList= surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah, QuranParts=QuranParts)
+    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, to_ayah=to_ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data, highlight=ayah_id, resolution=resolution, safah=safah, stage_0=stage_0, repeat=repeat, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList= surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah, QuranParts=QuranParts, page_position=page_position)
 
 
 @app.route('/login', methods=['GET', 'POST'])
