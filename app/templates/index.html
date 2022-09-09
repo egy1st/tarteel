@@ -37,6 +37,7 @@
 </div>
 <div id="bottom_line">
 
+
 <script> 
   data_dic = {{data_dic|safe}} ;
   parts_dic =  {{parts_dic|safe}} ;	 
@@ -45,6 +46,7 @@
   const img = document.getElementById("ayahImage"); 
   const coordsTextarea = document.getElementById("coords"); 
   const myArray = coordsTextarea.value.split(":");
+  const QuranParts = {{QuranParts|safe}} ;
   let cur_ayah = myArray[1];
   cur_ayah = (parseInt(cur_ayah)-1).toString();
   const basecur_ayah = cur_ayah;
@@ -55,7 +57,7 @@
   let repeat = {{repeat|int}};
   let selection_count = {{selection_count|int}};
   let ayah_repeat = {{ayah_repeat|int}};
-  //let = flipper = {{safah}} ;
+  let = flipper = {{safah}} ;
   let scroller = 1 ;
   let tmp_scroller = 0 ;
   let ayahCount = 1;
@@ -237,7 +239,7 @@
 	var partSelected = parseInt(document.getElementById("partlist").value) ;
 	//alert(valueSelected);
     //document.getElementById("quarterlist").value = '1' ;
-	//document.getElementById("hezblist").value = '1' ;
+	document.getElementById("quran_part").innerHTML =  'الجزء: ' + QuranParts[partSelected] ;
 
 
 	document.getElementById("ayah").value = parts_dic[partSelected]['hezb1']['q1']['from_ayah']  ;
@@ -252,9 +254,7 @@
 	function fnHezbChanged() {
 		var partSelected = parseInt(document.getElementById("partlist").value)
 		var hezbSelected = parseInt(document.getElementById("hezblist").value) ;
-		//alert(valueSelected);
-		//document.getElementById("quarterlist").value = '1' ;
-		//document.getElementById("hezblist").value = '1' ;
+		document.getElementById("quran_hezb").innerHTML =  'الحزب: ' + QuranParts[hezbSelected] ;
 
 		if (hezbSelected == 1) {
 			document.getElementById("ayah").value = parts_dic[partSelected]['hezb1']['q1']['from_ayah']  ;
@@ -272,7 +272,7 @@
 			document.getElementById("to_surah").value = parts_dic[partSelected]['hezb2']['q4']['to_surah']  ;
 		}
 		
-		else if (hezbSelected == 3) {
+		else if (hezbSelected == 31) {
 			document.getElementById("ayah").value = parts_dic[partSelected]['hezb1']['q1']['from_ayah']  ;
 			document.getElementById("surah").value = parts_dic[partSelected]['hezb1']['q1']['from_surah']  ;
 			
@@ -290,9 +290,8 @@
 		var hezbSelected = parseInt(document.getElementById("hezblist").value) ;
 		var quarterSelected = parseInt(document.getElementById("hezblist").value) ;
 		let hezb = 'hezb1' ;
-		//alert(valueSelected);
-		//document.getElementById("quarterlist").value = '1' ;
-		//document.getElementById("hezblist").value = '1' ;
+		document.getElementById("quran_quarter").innerHTML =  'الربع: ' + QuranParts[quarterSelected] ;
+		
 		if (hezbSelected == 1) {
 			hezb == 'hezb1' ;
 		} else if (hezbSelected == 2) {
@@ -332,7 +331,7 @@
 		}
 		
 		
-		else if (quarterSelected == 10) {
+		else if (quarterSelected == 32) {
 			document.getElementById("ayah").value = parts_dic[partSelected][hezb]['q1']['from_ayah']  ;
 			document.getElementById("surah").value = parts_dic[partSelected][hezb]['q1']['from_surah']  ;
 			

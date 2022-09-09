@@ -72,8 +72,6 @@ def uniformNumber(num):
         num = '0' + num   
     return num
 
-reciter_names = {'01': 'محمود خليل الحصرى', '02': 'محمد صديق المنشاوى', '03': 'عبد الباسط عبد الصمد', '04': 'محمود على البنا' , '05': 'مصطفى اسماعيل', '06': 'أحمد نعينع', '07': 'على الحذيفى', '08': 'أيمن سويد'}
-mode_type = {'R0': 'قراءة تعليمية للشيخ: ', 'R1': 'ترتيل للشيخ: ', 'R2': 'تجويد للشيخ: '}
 
 #@app.route('/')
 @app.route('/loop')
@@ -174,7 +172,10 @@ def hefz():
         to_surah = request.form['to_surah']
         repeat = request.form['repeat']
         ayah_repeat = request.form['ayah_repeat']
-        #print('mode', mode, 'reciter', reciter)
+        part = int(request.form.getlist('partlist')[0])
+        hezb = int(request.form.getlist('hezblist')[0])
+        quarter = int(request.form.getlist('quarterlist')[0])
+         
         
     elif request.method == 'GET':
         surah = request.args.get('surah')
@@ -273,18 +274,15 @@ def hefz():
                          a_prev =  a_
               
                 maxY_pos = pos['max_y']
-                print('maxY_pos', maxY_pos, n_)
                 if maxY_pos >= TO_SCROLL:
                     half_found = True
                     
                     
         safah_dic[ayah_pointer]['scroll'] = n_ #int(halfY) - int(ayah)
-        print('nnnn' , n_)
         ayah_pointer += ayah_count
-        print(selection_count, 'selection_count')
+        #print(selection_count, 'selection_count')
         print('safah: ' , safah, safah_end)    
         for i in range(safah+1, safah_end+1):
-            print('page: ' , i)
             safah_next= db_helper.get_data_for_safah(i)
      
             safah_len = len(safah_next)
@@ -315,8 +313,7 @@ def hefz():
             safah_dic[ayah_pointer]['count'] = ayah_count
             safah_dic[ayah_pointer]['data'] = safah_next
             safah_dic[ayah_pointer]['page'] = i
-            print(i, ayah_count)
-            
+                      
             n_ = 0
             half_found = False
             a_prev = '288'
@@ -338,7 +335,7 @@ def hefz():
             safah_dic[ayah_pointer]['scroll'] = n_ #int(halfY) - int(ayah_start) 
             ayah_pointer += ayah_count
             selection_count += ayah_count
-            print('selection_count all loop', selection_count)
+            #print('selection_count all loop', selection_count)
 
     else: # not None  
         #print('surah', surah, 'ayah', ayah, 'to_ayah', to_ayah)
@@ -424,7 +421,7 @@ def hefz():
                 _ayah = '1'
                 _toayah =   str(ayahCount[int(s)-1])     
             
-            print(s, _ayah, _toayah)
+           
             for i in range (int(_ayah), int(_toayah)+1):
                 ayah_fill = uniformNumber(str(i))
                 for a in range(int(ayah_repeat)):
@@ -434,7 +431,7 @@ def hefz():
     #print(to_repeat)
     #print(safah_dic.keys())
    
-    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data,  data_dic=safah_dic, highlight=ayah_id, resolution=resolution, to_repeat=to_repeat, safah=safah, repeat=repeat, stage_0=stage_0, to_ayah=to_ayah, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList=surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah )
+    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data,  data_dic=safah_dic, highlight=ayah_id, resolution=resolution, to_repeat=to_repeat, safah=safah, repeat=repeat, stage_0=stage_0, to_ayah=to_ayah, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList=surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah, QuranParts=QuranParts, part=part, hezb=hezb, quarter=quarter )
     
     
 @app.route('/' )
@@ -447,7 +444,10 @@ def index(ayah='1', to_ayah='1', surah='1', to_surah= '1', reciter='06', mode='R
         
     surahNamesList = '' 
     for s in   range(len(surahNames)):
-        surahNamesList +=   "<option value='" + str(s+1) + "'>" +  surahNames[s] + "</option>" 
+        surahNamesList +=   "<option value='" + str(s+1) + "'>" +  surahNames[s] + "</option>"
+    partList = '' 
+    for s in   range(len(QuranParts)):
+        partList +=   "<option value='" + str(s+1) + "'>" +  QuranParts[s] + "</option>"         
         
     get_Device()
     TPL = get_Device()
@@ -526,7 +526,7 @@ def index(ayah='1', to_ayah='1', surah='1', to_surah= '1', reciter='06', mode='R
         
     resolution = get_page_resolution(img_res, safah)
 
-    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, to_ayah=to_ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data, highlight=ayah_id, resolution=resolution, safah=safah, stage_0=stage_0, repeat=repeat, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList= surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah)
+    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, to_ayah=to_ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data, highlight=ayah_id, resolution=resolution, safah=safah, stage_0=stage_0, repeat=repeat, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList= surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah, QuranParts=QuranParts)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -610,6 +610,11 @@ def contactus():
     title='Contact Us'
     return render_template(template,  title=title, STATIC_URL=STATIC_URL)
 
+reciter_names = {'01': 'محمود خليل الحصرى', '02': 'محمد صديق المنشاوى', '03': 'عبد الباسط عبد الصمد', '04': 'محمود على البنا' , '05': 'مصطفى اسماعيل', '06': 'أحمد نعينع', '07': 'على الحذيفى', '08': 'أيمن سويد'}
+mode_type = {'R0': 'قراءة تعليمية للشيخ: ', 'R1': 'ترتيل للشيخ: ', 'R2': 'تجويد للشيخ: '}
+
+QuranParts = ['', 'الأول', 'الثانى', 'الثالث', 'الرابع', 'الخامس', 'السادس', 'السابع', 'الثامن', 'التاسع', 'العاشر', 'الحادى عشر', 'الثانى عشر', 'الثالث عشر', 'الرابع عشر', 'الخامس عشر', 'السادس عشر', 'السابع عشر', 'الثامن عشر', 'التاسع عشر', 'العشرون', 'الواحد والعشرون', 'الثانى والعشرون', 'الثالث والعشرون', 'الرابع والعشرون', 'الخامس والعشرون', 'السادس والعشرون', 'السابع والعشرون', 'الثامن والعشرون', 'التاسع والعشرون', 'الثلاثون', 'الجزء كاملاً', 'الحزب كاملاً']
+ 
 
 ayahCount = [7, 286, 200, 176, 120, 165, 206, 75, 129, 109, 123, 111, 43, 52, 99, 128, 111, 110, 98, 135, 112, 78, 118, 64, 77, 227, 93, 88, 69, 60, 34, 30, 73, 54, 45, 83, 182, 88, 75, 85, 54, 53, 89, 59, 37, 35, 38, 29, 18, 45, 60, 49, 62, 55, 78, 96, 29, 22, 24, 13, 14, 11, 11, 18, 12, 12, 30, 52, 52, 44, 28, 28, 20, 56, 40, 31, 50, 40, 46, 42, 29, 19, 36, 25, 22, 17, 19, 26, 30, 20, 15, 21, 11, 8, 8, 19, 5, 8, 8, 11, 11, 8, 3, 9, 5, 4, 7, 3, 6, 3, 5, 4, 5, 6]
 
