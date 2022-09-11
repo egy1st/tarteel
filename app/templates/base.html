@@ -86,18 +86,12 @@
 				
 		 }
 			
-			function formSubmit() {
+			async function formSubmit() {
 
-				return new Promise(function(resolve, reject) {
-
-				  setTimeout(() => resolve(formPrpare), 200); // (*)
-
-				}).then(function() { // (**)
-
-				  //alert(result); // 1
+				  //awaitdocument.getElementById('form_fromto').submit();	
 				  document.getElementById("startButton").click();
 
-				})
+				
 				
 			}
 			
@@ -127,8 +121,8 @@
 				  await submitForm();
 				  console.log("Form Submitted.")
 				  await second();
-				  console.log("wait ....")
-				  await sleep(200);
+				  //console.log("wait ....")
+				  //await sleep(200);
 				  console.log("Form Clicked")
 				  
 			  }
