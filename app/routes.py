@@ -172,16 +172,19 @@ def hefz():
         to_ayah = request.form['to_ayah']
         to_surah = request.form['to_surah']
         repeat = request.form['repeat']
+        repeat_hefz = request.form['repeat_hefz']
         ayah_repeat = request.form['ayah_repeat']
         part = int(request.form.getlist('partlist')[0])
         hezb = int(request.form.getlist('hezblist')[0])
         quarter = int(request.form.getlist('quarterlist')[0])
+        
          
         
     elif request.method == 'GET':
         surah = request.args.get('surah')
         safah = request.args.get('safah')
         to_ayah = request.args.get('to_ayah')
+        repeat_hefz = request.args.get('repeat_hefz')
         to_surah = request.args.get('to_surah')
         reciter = request.args.get('reciter')
         img_res = request.args.get('img_res')
@@ -206,8 +209,11 @@ def hefz():
 
     
     if ayah == '':
-            ayah = "1"
+        ayah = "1"
         
+    if repeat_hefz == '':
+        repeat_hefz = "1"
+            
     if to_ayah is None:
         to_ayah = str(ayahCount[int(surah)-1])
         
@@ -255,7 +261,7 @@ def hefz():
                 
           
         for i in range(safah+1, safah_end+1):
-            print('page: ', i)
+            #print('page: ', i)
             safah_next= db_helper.get_data_for_safah(i)
      
             safah_len = len(safah_next)
@@ -344,67 +350,67 @@ def hefz():
         page_position[1] = 'left'
         
         
-    surahfill = uniformNumber(surah) 
-    i_init = int(ayah)
-    i_to = int(to_ayah) + 1
-    
-    '''
-    ayah_fill = uniformNumber(str(i_init))
-    for a in range(int(ayah_repeat)):
-        ayah_i =  "https://cdn.tarteel.net/ayat/N1/mp3/" + mode + "/" + reciter + "/" + surahfill + ayah_fill + ".mp3"
-        to_repeat +=  "'" + ayah_i + "'" + ", " 
-            
-    s =1
-    for i in range (i_init+1, i_to):
-        s+= 1
-        ayah_fill = uniformNumber(str(i))
-        for a in range(int(ayah_repeat)):
-            ayah_i =  "https://cdn.tarteel.net/ayat/N1/mp3/" + mode + "/" + reciter + "/" + surahfill + ayah_fill + ".mp3"
-            to_repeat +=  "'" + ayah_i + "'" + ", " 
-            print('first time:', i)
-                
-            
-        for x in range(int(repeat)):
-            for i in range (i_init, i_init+s):    
-                ayah_fill = uniformNumber(str(i))
-                ayah_i =  "https://cdn.tarteel.net/ayat/N1/mp3/" + mode + "/" + reciter + "/" + surahfill + ayah_fill + ".mp3"
-                to_repeat +=  "'" + ayah_i + "'" + ", "  
-                print('looper:', i)
-
-   '''
     to_repeat = []
+    ayahDIC = {}
+    ayahDIC['url'] = "https://cdn.tarteel.net/ayat/N1/mp3/" + mode + "/" + reciter + "/"
+    to_repeat.append(ayahDIC) 
+                   
     n_surah = (int(to_surah) - int(surah)) + 1
+    i_init = 1
+    i_to = 1
+    
     for r in range (int(repeat)):
         for s in range(int(surah), int(to_surah)+1):
-           surahfill = uniformNumber(str(s))
+           
+           _surahfill = uniformNumber(str(s))
            if n_surah == 1:
                 _ayah= ayah
+                i_init = int(_ayah)
                 _toayah =   to_ayah
+                i_to =  int(_toayah) + 1
            elif  n_surah > 1 and s ==  int(surah) :
                 _ayah = ayah
+                i_init = int(_ayah)
                 _toayah =   str(ayahCount[int(s)-1])
+                i_to =  int(_toayah) + 1
            elif  n_surah > 1 and s ==  int(to_surah) :
                 _ayah = '1'
+                i_init = int(_ayah)
                 _toayah =   to_ayah
+                i_to =  int(_toayah) + 1 
            elif  n_surah > 1 and s > int(surah) and s < int(to_surah) :
                  _ayah = '1'
-                 _toayah =   str(ayahCount[int(s)-1])     
+                 i_init = int(_ayah)
+                 _toayah =   str(ayahCount[int(s)-1])
+                 i_to =  int(_toayah) + 1   
             
-          
-           for i in range (int(_ayah), int(_toayah)+1):
+           y = 0
+           for i in range (i_init, i_to):
+             
+               y+= 1
+               _ayah_fill = uniformNumber(str(i))
+               _ayahID = str(s) + ":" + str(i)
+               for a in range(int(ayah_repeat)):
+                   ayah_i =  _surahfill + _ayah_fill + ".mp3"
+                   ayahDIC = {}
+                   ayahDIC['ayahID'] = _ayahID 
+                   ayahDIC['audio'] = ayah_i
+                   to_repeat.append(ayahDIC) 
+              
+               if i != i_init : # do not accmulate first ayah
+                   for x in range(int(repeat_hefz)):
+                       for d in range (i_init, i_init + y):    
+                           _ayah_fill = uniformNumber(str(d))
+                           _ayahID = str(s) + ":" + str(d)
+                           ayah_i =  _surahfill + _ayah_fill + ".mp3"
+                           ayahDIC = {}
+                           ayahDIC['ayahID'] = _ayahID 
+                           ayahDIC['audio'] = ayah_i
+                           to_repeat.append(ayahDIC)
+                
+           #print(to_repeat)   
                    
-                ayah_fill = uniformNumber(str(i))
-                ayahID = str(s) + ":" + str(i)
-                for a in range(int(ayah_repeat)):
-                   ayah_i =  "https://cdn.tarteel.net/ayat/N1/mp3/" + mode + "/" + reciter + "/" + surahfill + ayah_fill + ".mp3"
-                   mydic = {}
-                   mydic['ayahID'] = ayahID 
-                   mydic['audio'] = ayah_i
-                   to_repeat.append(mydic) 
-                  
-                 
-                   
-    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data,  safah_dic=safah_dic, ayah_dic=ayah_dic, highlight=ayah_id, resolution=resolution, to_repeat=to_repeat, safah=safah, repeat=repeat, to_ayah=to_ayah, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList=surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah, QuranParts=QuranParts, part=part, hezb=hezb, quarter=quarter, page_position=page_position )
+    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data,  safah_dic=safah_dic, ayah_dic=ayah_dic, highlight=ayah_id, resolution=resolution, to_repeat=to_repeat, safah=safah, repeat=repeat, to_ayah=to_ayah, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList=surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah, QuranParts=QuranParts, part=part, hezb=hezb, quarter=quarter, page_position=page_position, repeat_hefz=repeat_hefz )
     
     
 @app.route('/' )
