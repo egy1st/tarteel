@@ -14,7 +14,7 @@
 <div class="mx-left max-w-md bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
 
 								
-<form id="form_fromto" action="{{ url_for('hefz') }}" method="post">
+<form id="form_fromto" name="form_fromto" action="{{ url_for('hefz') }}" method="post">
             {% include 'reciters.html' %}	
 			<br>
 			
@@ -87,7 +87,7 @@
 				<input onfocusout="" type="text" id="safh" name="safah" value="" class="hidden bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
 			</div>
 			
-			 <div class="grid gap-6 mb-6 md:grid-cols-3">
+			<div class="grid gap-6 mb-6 md:grid-cols-3">
 			<div>
 				<label for="ayah_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">من آية</label>
 				<input onChange="" type="text" id="ayah"  name="ayah" value="{{ayah}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
@@ -115,18 +115,65 @@
 			
 			</div>
 			
+			<div class="grid gap-6 mb-6 md:grid-cols-3">
+			<div>
+				<label for="cohort1_surah_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">رقم السورة</label>
+				<input onChange="" type="text" id="cohort1_surah" name="cohort1_surah" value="{{cohort1_surah}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
+			</div>
+			<div>
+				<label for="cohort1_ayah_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">من آية</label>
+				<input onChange="" type="text" id="cohort1_ayah"  name="cohort1_ayah" value="{{cohort1_ayah}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
+			</div>
+			<div>
+				<label for="cohort1_toayah_lablel" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">حتى آية</label>
+				<input onChange="" type="text" id="cohort1_toayah" name="cohort1_toayah" value="{{cohort1_toayah}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
+			</div>
+			</div>
+			
+			<div class="grid gap-6 mb-6 md:grid-cols-3">
+			<div>
+				<label for="cohort2_surah_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">رقم السورة</label>
+				<input onChange="" type="text" id="cohort2_surah" name="cohort2_surah" value="{{cohort2_surah}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
+			</div>
+			<div>
+				<label for="cohort2_ayah_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">من آية</label>
+				<input onChange="" type="text" id="cohort2_ayah"  name="cohort2_ayah" value="{{cohort2_ayah}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
+			</div>
+			<div>
+				<label for="cohort2_toayah_lablel" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">حتى آية</label>
+				<input onChange="" type="text" id="cohort2_toayah" name="cohort2_toayah" value="{{cohort2_toayah}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
+			</div>
+			</div>
+			
+			<div class="grid gap-6 mb-6 md:grid-cols-3">
+			<div>
+				<label for="cohort3_surah_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">رقم السورة</label>
+				<input onChange="" type="text" id="cohort3_surah" name="cohort3_surah" value="{{cohort3_surah}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
+			</div>
+			<div>
+				<label for="cohort3_ayah_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">من آية</label>
+				<input onChange="" type="text" id="cohort3_ayah"  name="cohort3_ayah" value="{{cohort3_ayah}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
+			</div>
+			<div>
+				<label for="cohort3_toayah_lablel" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">حتى آية</label>
+				<input onChange="" type="text" id="cohort3_toayah" name="cohort3_toayah" value="{{cohort3_toayah}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
+			</div>
+	        </div>
+			
+			
+			
 			<div class="grid gap-6 mb-6 md:grid-cols-4">
 			<div>
 				<label for="ayah_repeat" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> تكرار الآية </label>
 				<input onfocusout="" type="text" id="ayah_repeat" name="ayah_repeat" value="{{ayah_repeat}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
 			</div>
 			<div>
-				<label for="repeat_hefz_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> تكرار تراكمى</label>
-				<input onChange="" type="text" id="repeat_hefz"  name="repeat_hefz" value="{{repeat_hefz}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
-			</div>
-			<div>
 				<label for="repeat" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> تكرار المقطع</label>
 				<input onChange="" type="text" id="repeat"  name="repeat" value="{{repeat}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
+			</div>
+			<div>
+				<label for="repeat_hefz_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> تكرار تراكمى</label>
+				<input onChange="" type="text" id="repeat_hefz"  name="repeat_hefz" value="{{repeat_hefz}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
 			</div>
 			<div>
 				<label for="repeat_prepare_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> قراءة تمهيدية</label>

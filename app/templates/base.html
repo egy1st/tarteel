@@ -79,7 +79,51 @@
 				//document.getElementById("toggle_screen").innerHTML  = "شاشة كاملة";
 			  }
 			}
+			
+		function formPrpare() {
+               
+			document.getElementById("form_fromto").submit();
+				
+		 }
+			
+			function formSubmit() {
 
+				return new Promise(function(resolve, reject) {
+
+				  setTimeout(() => resolve(formPrpare), 200); // (*)
+
+				}).then(function() { // (**)
+
+				  //alert(result); // 1
+				  document.getElementById("startButton").click();
+
+				})
+				
+			}
+			
+			
+			function first() {
+			  return new Promise((resolve) => {
+			    //document.getElementById("startButton").click();
+				document.getElementById("form_fromto").submit();
+				resolve();
+			  });
+			}
+
+			function second() {
+			  return new Promise((resolve) => {
+			    //document.getElementById("form_fromto").submit();
+				document.getElementById("startButton").click();
+				resolve();
+				
+			  });
+			}
+
+			
+
+
+			
+			
 		</script>
 		
 		

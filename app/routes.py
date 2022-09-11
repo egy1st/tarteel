@@ -210,7 +210,7 @@ def hefz():
         ayah = "1"
         
     if repeat_hefz == '':
-        repeat_hefz = "1"
+        repeat_hefz = "0"
         
     if repeat_prepare == '':
         repeat_prepare = "0"
