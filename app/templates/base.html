@@ -103,26 +103,38 @@
 			
 			
 			function first() {
-			  return new Promise((resolve) => {
-			    //document.getElementById("startButton").click();
-				document.getElementById("form_fromto").submit();
-				resolve();
-			  });
+			  return Promise.resolve(() => document.getElementById('form_fromto').submit())
+				
 			}
 
 			function second() {
-			  return new Promise((resolve) => {
-			    //document.getElementById("form_fromto").submit();
-				document.getElementById("startButton").click();
-				resolve();
+			  
+				return Promise.resolve(() => document.getElementById('startButton').click())
 				
-			  });
 			}
-
 			
-
-
 			
+			function sleep(ms) {
+				return new Promise(resolve => setTimeout(resolve, ms))
+			  }
+			  
+			  function submitForm() {
+				return Promise.resolve(() => document.getElementById("form_fromto").submit())
+				
+			  }
+			  
+			  async function test() {
+				  await submitForm();
+				  console.log("Form Submitted.")
+				  await second();
+				  console.log("wait ....")
+				  await sleep(200);
+				  console.log("Form Clicked")
+				  
+			  }
+			  
+			 			 
+									
 			
 		</script>
 		
