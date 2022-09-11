@@ -66,8 +66,7 @@
  
     //for (const key of Object.keys(to_repeat)) {
 	 audioLength = to_repeat.length;
-	 console.log(audioLength);
-	
+	 	
 	 if (audioPointer < audioLength) {
 	
 	    audio_url = url + to_repeat[audioPointer]['audio'] ;
@@ -78,14 +77,10 @@
 		ayahID = to_repeat[audioPointer]['ayahID'] ;
 		coordsTextarea.value = ayahID ;
 	    page  = ayah_dic[ayahID]['page'] ;
-	    console.log(page);
-		
-		console.log(ayahID);
-		
+	    
 	    scroller = ayah_dic[ayahID]['scroll'] ;
 		scrollMe(scroller);
-		console.log(scroller);
-			
+					
  
 		window.gPagePath =  "https://cdn.tarteel.net/ayat/N1/img/T2/02/" + page + ".jpg" ; //maa it works amazingly
 		window.gData = safah_dic[page];
@@ -94,7 +89,6 @@
 	 
 	   onRefreshPress();
 	   audioPointer +=1;
-	   console.log(audioPointer);
 	 
 	} 
 	
