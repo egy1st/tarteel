@@ -140,7 +140,6 @@ def route_test(ayah="1:1", images='1053'):
 
 @app.route('/hefz', methods=['GET', 'POST'])
 def hefz():
-    stage_0 = 1
     img_res = None
     narration = None
     img_mode = None
@@ -154,6 +153,8 @@ def hefz():
     radioReciters = {}
     TO_SCROLL = 580
     ayah_pointer = 1
+    ayah_dic = {}
+    safah_dic = {}
     
     surahNamesList = '' 
     for s in   range(len(surahNames)):
@@ -225,9 +226,6 @@ def hefz():
     if quarter == '':
         quarter = "1"  
         
-    safahSelection = []   
-    safah_dic = {} 
-    
    
     if  safah == "":
         safah_data = db_helper.get_safah_data_from_ayah_key(ayah_id, img_res)
@@ -236,63 +234,28 @@ def hefz():
         safah_data_end = db_helper.get_safah_data_from_ayah_key(toayah_id, img_res)
         safah_end = int(safah_data_end[0]['page'])
         n_pages = safah_end - safah + 1
-        ayah_pointer = 1
-        safah_len = len(safah_data)
-        ayah_start = safah_data[0]['ayah']
-        
+        ayah_pointer = ""
         n_surah = (int(to_surah) - int(surah)) + 1
         
-        ayah_end = to_ayah
-        selection_count = 0
-        if n_surah == 1 and n_pages == 1:
-            ayah_end = to_ayah
-            ayah_count = (int(ayah_end) - int(ayah)) + 1 
-        elif n_surah == 1 and n_pages > 1:
-            ayah_end = safah_data[safah_len -1]['ayah']
-            ayah_count = (int(ayah_end) - int(ayah)) + 1 
-        else: #  n_surah > 1 ansdn_pages == 1 or :  n_surah > 1 ansdn_pages > 1
-            a_prev = '288'
-            a_tot = 0
-            for c_ in range(len(safah_data)):
-                if int(safah_data[c_]['sura']) > int(surah) or (int(safah_data[c_]['sura']) == int(surah)  and  int(safah_data[c_]['ayah'] >= int(ayah) )):
-                    a_ = safah_data[c_]['ayah']
-                    if a_ != a_prev:
-                        a_tot += 1
-                        a_prev = a_
-                 
-            ayah_count =  a_tot 
-       
-       
-        selection_count = ayah_count
-        safah_dic[ayah_pointer] = {}
-        safah_dic[ayah_pointer]['count'] = ayah_count
-        safah_dic[ayah_pointer]['data'] = safah_data
-        safah_dic[ayah_pointer]['page'] = safah
-        #print(safah, ayah_end, ayah, ayah_count, 'only one')
-        
-        half_found = False
-        n_ = 0
-        a_prev = '288'
-        for pos in safah_data: #522 583 643
-          if half_found == True:
-                break
-          else:   
-                if  int(pos['sura']) > int(surah) or (int(pos['sura']) == int(surah)  and  int(pos['ayah']) >= int(ayah)):
-                    a_ = pos['ayah']
-                    if a_ != a_prev:
-                         n_ += 1
-                         a_prev =  a_
               
-                maxY_pos = pos['max_y']
-                if maxY_pos >= TO_SCROLL:
-                    half_found = True
-                    
-                    
-        safah_dic[ayah_pointer]['scroll'] = n_ #int(halfY) - int(ayah)
-        ayah_pointer += ayah_count
-        #print(selection_count, 'selection_count')
-        print('safah: ' , safah, safah_end)    
+       
+        for pos in safah_data: #522 583 643
+            ayah_pointer = str(pos['sura']) + ":" + str(pos['ayah'])
+            ayah_dic[ayah_pointer] = {}
+            ayah_dic[ayah_pointer]['page'] = safah
+            if pos['max_y'] >= TO_SCROLL:
+                ayah_dic[ayah_pointer]['scroll'] = 1
+            else:
+                ayah_dic[ayah_pointer]['scroll'] = 0
+            if ayah_pointer not in safah_dic:
+                safah_dic[safah] = safah_data
+           
+        
+                          
+                
+          
         for i in range(safah+1, safah_end+1):
+            print('page: ', i)
             safah_next= db_helper.get_data_for_safah(i)
      
             safah_len = len(safah_next)
@@ -301,63 +264,26 @@ def hefz():
                   
             safah_dic[ayah_pointer] = {}
             
-            if n_surah == 1 and i == safah_end:
-                ayah_end = to_ayah
-                ayah_count = (int(ayah_end) - int(ayah_start)) + 1 
-            elif n_surah == 1 and i < safah_end:
-                ayah_end = safah_next[safah_len -1]['ayah']
-                ayah_count = (int(ayah_end) - int(ayah_start)) + 1 
-            else: #  n_surah > 1 
-                a_prev = '288'
-                a_tot = 0
-                for c_ in range(len(safah_next)):
-                    if int(safah_next[c_]['sura']) < int(to_surah) or (int(safah_next[c_]['sura']) == int(to_surah)  and  int(safah_next[c_]['ayah'] <= int(to_ayah) )):
-                        a_ = safah_next[c_]['ayah']
-                        if a_ != a_prev:
-                            a_tot += 1
-                            a_prev = a_
-                ayah_count =  a_tot 
-          
-           
-                
-            safah_dic[ayah_pointer]['count'] = ayah_count
-            safah_dic[ayah_pointer]['data'] = safah_next
-            safah_dic[ayah_pointer]['page'] = i
-                      
-            n_ = 0
-            half_found = False
-            a_prev = '288'
-            for pos in safah_next: #522 583 643
-              if half_found == True:
-                    break
-              else:  
-                     #print( int(pos['ayah'],  int(to_ayah) ) )              
-                     if int(pos['sura']) < int(to_surah) or (int(pos['sura']) == int(to_surah)  and  int(pos['ayah'] <= int(to_ayah) )):
-                         a_ = pos['ayah']
-                         if a_ != a_prev:
-                             n_ += 1
-                             a_prev =  a_
-                  
-                     maxY_pos = pos['max_y']
-                     if maxY_pos >= TO_SCROLL:
-                        half_found = True
             
-            safah_dic[ayah_pointer]['scroll'] = n_ #int(halfY) - int(ayah_start) 
-            ayah_pointer += ayah_count
-            selection_count += ayah_count
-            #print('selection_count all loop', selection_count)
-
+                
+            for pos in safah_next: #522 583 643
+                ayah_pointer = str(pos['sura']) + ":" + str(pos['ayah'])
+                ayah_dic[ayah_pointer] = {}
+                ayah_dic[ayah_pointer]['page'] = i
+                if pos['max_y'] >= TO_SCROLL:
+                    ayah_dic[ayah_pointer]['scroll'] = 1
+                else:
+                    ayah_dic[ayah_pointer]['scroll'] = 0
+                if ayah_pointer not in safah_dic:
+                    safah_dic[i] = safah_next
+           
     else: # not None  
-        #print('surah', surah, 'ayah', ayah, 'to_ayah', to_ayah)
         safah_data= db_helper.get_data_for_safah(safah)
         safah = int(safah)
         ayah = str(pages[safah]['from'])
         to_ayah = str(pages[safah]['to'])
         surah = str(pages[safah]['surah'])
-        #print(safah, ayah, to_ayah)
-
-
-    #selection_count = ayah_pointer-1 # it points now to the count 
+        
        
     get_Device()
     TPL = get_Device()
@@ -391,10 +317,7 @@ def hefz():
     img = surah + "_" + ayah
     surah_fill = uniformNumber(surah)
     ayah_fill = uniformNumber(ayah)
-    #ayah_url = STATIC_URL + "ayat/mp3/" + surah_fill + "/" + surah_fill + ayah_fill + ".mp3"
-    #request = requests.get(ayah_url)
-    #if request.status_code >= 400:
-    
+   
  
     next_ayah = str(int(ayah)+1)
     if int(next_ayah) > ayahCount[int(surah)-1] :
@@ -420,35 +343,68 @@ def hefz():
         page_position[0] = 'right'
         page_position[1] = 'left'
         
-    to_repeat = ""
-    n_times = (int(to_surah) - int(surah)) + 1
+        
+    surahfill = uniformNumber(surah) 
+    i_init = int(ayah)
+    i_to = int(to_ayah) + 1
+    
+    '''
+    ayah_fill = uniformNumber(str(i_init))
+    for a in range(int(ayah_repeat)):
+        ayah_i =  "https://cdn.tarteel.net/ayat/N1/mp3/" + mode + "/" + reciter + "/" + surahfill + ayah_fill + ".mp3"
+        to_repeat +=  "'" + ayah_i + "'" + ", " 
+            
+    s =1
+    for i in range (i_init+1, i_to):
+        s+= 1
+        ayah_fill = uniformNumber(str(i))
+        for a in range(int(ayah_repeat)):
+            ayah_i =  "https://cdn.tarteel.net/ayat/N1/mp3/" + mode + "/" + reciter + "/" + surahfill + ayah_fill + ".mp3"
+            to_repeat +=  "'" + ayah_i + "'" + ", " 
+            print('first time:', i)
+                
+            
+        for x in range(int(repeat)):
+            for i in range (i_init, i_init+s):    
+                ayah_fill = uniformNumber(str(i))
+                ayah_i =  "https://cdn.tarteel.net/ayat/N1/mp3/" + mode + "/" + reciter + "/" + surahfill + ayah_fill + ".mp3"
+                to_repeat +=  "'" + ayah_i + "'" + ", "  
+                print('looper:', i)
+
+   '''
+    to_repeat = []
+    n_surah = (int(to_surah) - int(surah)) + 1
     for r in range (int(repeat)):
         for s in range(int(surah), int(to_surah)+1):
-            _surahfill = uniformNumber(str(s))
-            if n_times == 1:
+           surahfill = uniformNumber(str(s))
+           if n_surah == 1:
                 _ayah= ayah
                 _toayah =   to_ayah
-            elif  n_times > 1 and s ==  int(surah) :
+           elif  n_surah > 1 and s ==  int(surah) :
                 _ayah = ayah
                 _toayah =   str(ayahCount[int(s)-1])
-            elif  n_times > 1 and s ==  int(to_surah) :
+           elif  n_surah > 1 and s ==  int(to_surah) :
                 _ayah = '1'
                 _toayah =   to_ayah
-            elif  n_times > 1 and s > int(surah) and s < int(to_surah) :
-                _ayah = '1'
-                _toayah =   str(ayahCount[int(s)-1])     
+           elif  n_surah > 1 and s > int(surah) and s < int(to_surah) :
+                 _ayah = '1'
+                 _toayah =   str(ayahCount[int(s)-1])     
             
-           
-            for i in range (int(_ayah), int(_toayah)+1):
+          
+           for i in range (int(_ayah), int(_toayah)+1):
+                   
                 ayah_fill = uniformNumber(str(i))
+                ayahID = str(s) + ":" + str(i)
                 for a in range(int(ayah_repeat)):
-                    ayah_i =  "https://cdn.tarteel.net/ayat/N1/mp3/" + mode + "/" + reciter + "/" + _surahfill + ayah_fill + ".mp3"
-                    to_repeat +=  "'" + ayah_i + "'" + ", "
-         
-    #print(to_repeat)
-    #print(safah_dic.keys())
-   
-    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data,  data_dic=safah_dic, highlight=ayah_id, resolution=resolution, to_repeat=to_repeat, safah=safah, repeat=repeat, stage_0=stage_0, to_ayah=to_ayah, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList=surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah, QuranParts=QuranParts, part=part, hezb=hezb, quarter=quarter, page_position=page_position )
+                   ayah_i =  "https://cdn.tarteel.net/ayat/N1/mp3/" + mode + "/" + reciter + "/" + surahfill + ayah_fill + ".mp3"
+                   mydic = {}
+                   mydic['ayahID'] = ayahID 
+                   mydic['audio'] = ayah_i
+                   to_repeat.append(mydic) 
+                  
+                 
+                   
+    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data,  safah_dic=safah_dic, ayah_dic=ayah_dic, highlight=ayah_id, resolution=resolution, to_repeat=to_repeat, safah=safah, repeat=repeat, to_ayah=to_ayah, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList=surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah, QuranParts=QuranParts, part=part, hezb=hezb, quarter=quarter, page_position=page_position )
     
     
 @app.route('/' )
@@ -456,7 +412,7 @@ def hefz():
 @app.route('/<surah>/<ayah>')
 @app.route('/<surah>/<ayah>.html')
 #@mobile_template('/{mobile/}' + USER_LANG + '_index.html')
-def index(ayah='1', to_ayah='1', surah='1', to_surah= '1', reciter='06', mode='R1', narration='N1', img_mode='T1', img_type='01', ayah_id="1:1", img_res='1053', stage_0 = 0, safah='', repeat='1', selection_count = '1', ayah_repeat='1',  radioReciters = {}):
+def index(ayah='1', to_ayah='1', surah='1', to_surah= '1', reciter='06', mode='R1', narration='N1', img_mode='T1', img_type='01', ayah_id="1:1", img_res='1053', safah='', repeat='1', selection_count = '1', ayah_repeat='1',  radioReciters = {}):
     
         
     surahNamesList = '' 
@@ -550,7 +506,7 @@ def index(ayah='1', to_ayah='1', surah='1', to_surah= '1', reciter='06', mode='R
         
     resolution = get_page_resolution(img_res, safah)
 
-    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, to_ayah=to_ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data, highlight=ayah_id, resolution=resolution, safah=safah, stage_0=stage_0, repeat=repeat, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList= surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah, QuranParts=QuranParts, page_position=page_position)
+    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, to_ayah=to_ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data, highlight=ayah_id, resolution=resolution, safah=safah, repeat=repeat, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList= surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah, QuranParts=QuranParts, page_position=page_position)
 
 
 @app.route('/login', methods=['GET', 'POST'])

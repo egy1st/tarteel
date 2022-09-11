@@ -39,17 +39,19 @@
 
 
 <script> 
-  data_dic = {{data_dic|safe}} ;
+  safah_dic = {{safah_dic|safe}} ;
+  ayah_dic = {{ayah_dic|safe}} ;
   parts_dic =  {{parts_dic|safe}} ;	 
+  to_repeat = {{to_repeat|safe}} ;	 
   //console.log(data_dic);
 
   const img = document.getElementById("ayahImage"); 
   const coordsTextarea = document.getElementById("coords"); 
-  const myArray = coordsTextarea.value.split(":");
+  //const myArray = coordsTextarea.value.split(":");
   const QuranParts = {{QuranParts|safe}} ;
-  let cur_ayah = myArray[1];
-  cur_ayah = (parseInt(cur_ayah)-1).toString();
-  const basecur_ayah = cur_ayah;
+  //let cur_ayah = myArray[1];
+  //cur_ayah = (parseInt(cur_ayah)-1).toString();
+  //const basecur_ayah = cur_ayah;
   let surah = {{surah|int}} ;
   const base_surah = surah;
   let ayah_count = {{ayahCount|int}} ;
@@ -67,91 +69,48 @@
   let audio_basePointer = 0;
   
   
+   const myArray = coordsTextarea.value.split(":");
+   let cur_ayah = myArray[1];
+   //cur_ayah = (parseInt(cur_ayah)-1).toString();
+   const basecur_ayah = cur_ayah;
+   console.log(cur_ayah)
+   let myid = '' ;
+	  
   function playNext() { 
-    if (tmp_repeat < audioArray.length){
-    //if (audioPointer < audioArray.length) { 
-	  
-	 
-	  audio = new Audio(audioArray[audioPointer]); 
-      audio.addEventListener("ended", playNext); 
-	  audio.play();
-	  //console.log(coordsTextarea.value);
-	  
-	  
-	 console.log(audioPointer); 
-	 if  (audioPointer % ayah_repeat == 0) {
-	 
-	  audio_basePointer += 1 ;
-	  if (cur_ayah < surah_ayah_count) {
-	      cur_ayah = (parseInt(cur_ayah) + 1).toString() ;
-		  } else {
-		  cur_ayah = '1' ;
-		  surah += 1;
-		  surah_ayah_count =  {{ayahCount}}[surah-1] ;
-		  }
-	  coordsTextarea.value = surah + ":" + cur_ayah ;
-	  
-	 
-	  }
-	  
-	  //console.log(audioPointer, audio_basePointer); 
-	  onRefreshPress();
-	 
-	 
-     if (audio_basePointer in data_dic ){
-		//console.log("found", audio_basePointer);
-		tmp_scroller = 0 ;
-	    scrollMe("Top")
-		ayahCount = data_dic[audio_basePointer]['count'] ;
-		page  = data_dic[audio_basePointer]['page'] ;
-		scroller = data_dic[audio_basePointer]['scroll'] ;
-		//console.log("Ayah count: " + ayahCount.toString());
+ 
+    //for (const key of Object.keys(to_repeat)) {
+	 audioLength = to_repeat.length;
+	 if (audioPointer <= audioLength) {
+	
+	    audio = new Audio(to_repeat[audioPointer]['audio']); 
+	    audio.addEventListener("ended", playNext); 
+	    audio.play();
+	    
+		ayahID = to_repeat[audioPointer]['ayahID'] ;
+		coordsTextarea.value = ayahID ;
+	    page  = ayah_dic[ayahID]['page'] ;
+	    console.log(page);
+		console.log(audioLength);
+		console.log(audioPointer);
+		console.log(ayahID);
 		
-	 
-	 window.gPagePath =  "https://cdn.tarteel.net/ayat/N1/img/T2/02/" + data_dic[audio_basePointer]['page'] + ".jpg" ; //maa it works amazingly
-	 //console.log(window.gPagePath)
-	 window.gData = data_dic[audio_basePointer]['data'];
-	 window.gValues = {{values}};
-	 reorderDiv(page);
-	 //flipper += 1;
-	 
-	 onRefreshPress();
-	 //audio_basePointer+=1;
+	    scroller = ayah_dic[ayahID]['scroll'] ;
+		scrollMe(scroller);
+		console.log(scroller);
+			
  
- 
+		window.gPagePath =  "https://cdn.tarteel.net/ayat/N1/img/T2/02/" + page + ".jpg" ; //maa it works amazingly
+		window.gData = safah_dic[page];
+		window.gValues = {{values}};
+		reorderDiv(page);
+	 
+	   onRefreshPress();
+	   audioPointer +=1;
+	 
 	} 
 	
-	console.log(audioPointer, scroller);
-	audioPointer += 1;	 
-
-	//console.log(selection_count);
-	console.log(selection_count);
-	if (audioPointer % (selection_count * ayah_repeat) == 0 ) {
-	audioPointer =0;
-	audio_basePointer = 0;
-	cur_ayah = basecur_ayah;
-	surah = base_surah ;
-	surah_ayah_count =  {{ayahCount}}[surah-1] ;
-	console.log(scroller);
-	}
-	 
-	//console.log (audioPointer, tmp_scroller, scroller, scroller*ayah_repeat);
-	if (tmp_scroller > (scroller*ayah_repeat ) ) {
-		 scrollMe("Bottom");
-		}
-	  tmp_scroller += 1 ; 
 	
-     //console.log(tmp_scroller, scroller	 )
-	 
-    } else { // loop through ayat
-      console.log("finished"); 
-    }
-	
-   
-
-//} 
-  tmp_repeat += 1;
-  	 
+  
   
   }
 		 
@@ -160,7 +119,6 @@
       audio.pause(); 
     } 
     console.log("start"); 
-    audioPointer = 0; 
     playNext(); 
   } 
   
@@ -168,10 +126,7 @@
   const startButton = document.getElementById("startButton"); 
   startButton.addEventListener("click", onStart); 
   
-  const audioArray = [ 
-    {{to_repeat|safe}}
-  ]; 
-  
+   
   const reloadCss = () => {
 	 const links = document.getElementsByTagName("link");
 	  for (const link of links) {
@@ -200,12 +155,12 @@
 	  }
      }
 	 
-	 function scrollMe(to) {
+	 function scrollMe(doit) {
 	     //alert(half, count, half >= count/2);
-	     if (to === 'Top' ){
+	     if (doit === 0 ){
 		 const bottomDiv = document.getElementById("top_line");
 		 bottomDiv.scrollIntoView();
-		 } else if (to === 'Bottom' ){
+		 } else if (doit === 1 ){
 		 const bottomDiv = document.getElementById("bottom_line");
 		 bottomDiv.scrollIntoView();
 		 }
