@@ -202,12 +202,7 @@ def hefz():
     if img_res is None:
         img_res='1053'
         
-    #print('safah', safah, 'surah', surah, 'img_res', img_res)  
-    
-    
-    
-
-    
+   
     if ayah == '':
         ayah = "1"
         
