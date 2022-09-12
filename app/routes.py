@@ -41,7 +41,7 @@ def page_not_found(e):
 
 @app.errorhandler(500)
 def internal_server_error(e):
-    template = TPL + USER_LANG +  '/' + '500.html'
+    template = TPL +   '/' + '500.html'
     return render_template(template, STATIC_URL=STATIC_URL), 500
 
 #@app.route('/')
@@ -473,8 +473,8 @@ def hefz():
                                    ayahDIC['audio'] = ayah_i
                                    to_repeat.append(ayahDIC)
     
-             print(ayah_dic)
-             print(to_repeat)
+             #print(ayah_dic)
+             #print(to_repeat)
     
     
     
