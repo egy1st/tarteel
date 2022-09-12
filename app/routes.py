@@ -155,15 +155,31 @@ def hefz():
     ayah_pointer = 1
     ayah_dic = {}
     safah_dic = {}
+    n_cohort = 0
     
     surahNamesList = '' 
     for s in   range(len(surahNames)):
         surahNamesList +=   "<option value='" + str(s+1) + "'>" +  surahNames[s] + "</option>"
     
+    cohort = {}
+    cohort[1] = {}
+    cohort[2] = {}
+    cohort[3] = {}
     
     if  request.method == 'POST':
         surah = request.form['surah']
+        cohort[1]['surah'] = request.form['cohort1_surah']
+        cohort[2]['surah'] = request.form['cohort2_surah']
+        cohort[3]['surah'] = request.form['cohort3_surah']
         ayah = request.form['ayah']
+        cohort[1]['ayah'] = request.form['cohort1_ayah']
+        cohort[2]['ayah'] = request.form['cohort2_ayah']
+        cohort[3]['ayah'] = request.form['cohort3_ayah']
+        to_ayah = request.form['to_ayah']
+        cohort[1]['to_ayah'] = request.form['cohort1_toayah']
+        cohort[2]['to_ayah']  = request.form['cohort2_toayah']
+        cohort[3]['to_ayah']  = request.form['cohort3_toayah']
+        
         safah = request.form['safah']
         reciter_mode = request.form.getlist('reciters')[0].split("-")
         mode = reciter_mode[0]
@@ -233,56 +249,105 @@ def hefz():
     if quarter == '':
         quarter = "1"  
         
-   
+    ayah_pointer = ""
     if  safah == "":
-        safah_data = db_helper.get_safah_data_from_ayah_key(ayah_id, img_res)
-        safah = int(safah_data[0]['page'])
+   
+        #n_pages = safah_end - safah + 1
+        #n_surah = (int(to_surah) - int(surah)) + 1
         
-        safah_data_end = db_helper.get_safah_data_from_ayah_key(toayah_id, img_res)
-        safah_end = int(safah_data_end[0]['page'])
-        n_pages = safah_end - safah + 1
-        ayah_pointer = ""
-        n_surah = (int(to_surah) - int(surah)) + 1
+        cohort_surah = cohort[1]['surah']
+        if cohort_surah == '' :  #One Cohort Mode
+            n_cohort = 0
+            safah_data = db_helper.get_safah_data_from_ayah_key(ayah_id, img_res)
+            safah = int(safah_data[0]['page'])
+            safah_data_end = db_helper.get_safah_data_from_ayah_key(toayah_id, img_res)
+            safah_end = int(safah_data_end[0]['page'])
         
-              
-       
-        for pos in safah_data: #522 583 643
-            ayah_pointer = str(pos['sura']) + ":" + str(pos['ayah'])
-            ayah_dic[ayah_pointer] = {}
-            ayah_dic[ayah_pointer]['page'] = safah
-            if pos['max_y'] >= TO_SCROLL:
-                ayah_dic[ayah_pointer]['scroll'] = 1
-            else:
-                ayah_dic[ayah_pointer]['scroll'] = 0
-            if ayah_pointer not in safah_dic:
-                safah_dic[safah] = safah_data
-           
-        
-                          
-                
-          
-        for i in range(safah+1, safah_end+1):
-            #print('page: ', i)
-            safah_next= db_helper.get_data_for_safah(i)
-     
-            safah_len = len(safah_next)
-            ayah_start = safah_next[0]['ayah']
-            ayah_end = safah_next[safah_len -1]['ayah']
-                  
-            safah_dic[ayah_pointer] = {}
-            
-            
-                
-            for pos in safah_next: #522 583 643
+            for pos in safah_data: #522 583 643
                 ayah_pointer = str(pos['sura']) + ":" + str(pos['ayah'])
                 ayah_dic[ayah_pointer] = {}
-                ayah_dic[ayah_pointer]['page'] = i
+                ayah_dic[ayah_pointer]['page'] = safah
                 if pos['max_y'] >= TO_SCROLL:
                     ayah_dic[ayah_pointer]['scroll'] = 1
                 else:
                     ayah_dic[ayah_pointer]['scroll'] = 0
                 if ayah_pointer not in safah_dic:
-                    safah_dic[i] = safah_next
+                    safah_dic[safah] = safah_data
+               
+            
+                              
+                    
+              
+            for i in range(safah+1, safah_end+1):
+                #print('page: ', i)
+                safah_next= db_helper.get_data_for_safah(i)
+         
+                safah_dic[ayah_pointer] = {}
+                
+                
+                    
+                for pos in safah_next: #522 583 643
+                    ayah_pointer = str(pos['sura']) + ":" + str(pos['ayah'])
+                    ayah_dic[ayah_pointer] = {}
+                    ayah_dic[ayah_pointer]['page'] = i
+                    if pos['max_y'] >= TO_SCROLL:
+                        ayah_dic[ayah_pointer]['scroll'] = 1
+                    else:
+                        ayah_dic[ayah_pointer]['scroll'] = 0
+                    if ayah_pointer not in safah_dic:
+                        safah_dic[i] = safah_next
+                        
+        else:   # Multi cohort mode
+            cohort_surah = cohort[1]['surah']
+            cohort_ayah = cohort[1]['ayah'] 
+            ayah_id = cohort_surah + ":" + cohort_ayah
+            if cohort[3]['to_ayah'] != '' :
+                cohort_toayah = cohort[3]['to_ayah']
+                n_cohort = 3
+            elif  cohort[2]['to_ayah'] != ''  :
+                  cohort_toayah = cohort[2]['to_ayah']
+                  n_cohort = 2
+            elif  cohort[1]['to_ayah'] != '' :
+                  cohort_toayah = cohort[1]['to_ayah']   
+                  n_cohort = 1                  
+            toayah_id = cohort_surah + ":" + cohort_toayah
+            safah_data = db_helper.get_safah_data_from_ayah_key(ayah_id, img_res)
+            safah = int(safah_data[0]['page'])
+            safah_data_end = db_helper.get_safah_data_from_ayah_key(toayah_id, img_res)
+            safah_end = int(safah_data_end[0]['page'])
+            
+            for pos in safah_data: #522 583 643
+                ayah_pointer = str(pos['sura']) + ":" + str(pos['ayah'])
+                ayah_dic[ayah_pointer] = {}
+                ayah_dic[ayah_pointer]['page'] = safah
+                if pos['max_y'] >= TO_SCROLL:
+                    ayah_dic[ayah_pointer]['scroll'] = 1
+                else:
+                    ayah_dic[ayah_pointer]['scroll'] = 0
+                if ayah_pointer not in safah_dic:
+                    safah_dic[safah] = safah_data
+   
+              
+            for i in range(safah+1, safah_end+1):
+                #print('page: ', i)
+                safah_next= db_helper.get_data_for_safah(i)
+                                      
+                safah_dic[ayah_pointer] = {}
+                
+                
+                    
+                for pos in safah_next: #522 583 643
+                    ayah_pointer = str(pos['sura']) + ":" + str(pos['ayah'])
+                    ayah_dic[ayah_pointer] = {}
+                    ayah_dic[ayah_pointer]['page'] = i
+                    if pos['max_y'] >= TO_SCROLL:
+                        ayah_dic[ayah_pointer]['scroll'] = 1
+                    else:
+                        ayah_dic[ayah_pointer]['scroll'] = 0
+                    if ayah_pointer not in safah_dic:
+                        safah_dic[i] = safah_next
+
+
            
     else: # not None  
         safah_data= db_helper.get_data_for_safah(safah)
@@ -359,69 +424,125 @@ def hefz():
     n_surah = (int(to_surah) - int(surah)) + 1
     i_init = 1
     i_to = 1
-    
-    for r in range (int(repeat)):
-        for s in range(int(surah), int(to_surah)+1):
-           
-           _surahfill = uniformNumber(str(s))
-           if n_surah == 1:
-                _ayah= ayah
-                i_init = int(_ayah)
-                _toayah =   to_ayah
-           elif  n_surah > 1 and s ==  int(surah) :
-                _ayah = ayah
-                i_init = int(_ayah)
-                _toayah =   str(ayahCount[int(s)-1])
-           elif  n_surah > 1 and s ==  int(to_surah) :
-                _ayah = '1'
-                i_init = int(_ayah)
-                _toayah =   to_ayah
-           elif  n_surah > 1 and s > int(surah) and s < int(to_surah) :
-                 _ayah = '1'
-                 i_init = int(_ayah)
-                 _toayah =   str(ayahCount[int(s)-1])
- 
-           i_to =  int(_toayah) + 1  
-           y = 0
-           
-           
-           for p in range(int(repeat_prepare)):
-               for i in range (i_init, i_to): 
-                   _ayah_fill = uniformNumber(str(i))
-                   _ayahID = str(s) + ":" + str(i)
-                  
-                   ayah_i =  _surahfill + _ayah_fill + ".mp3"
-                   ayahDIC = {}
-                   ayahDIC['ayahID'] = _ayahID 
-                   ayahDIC['audio'] = ayah_i
-                   to_repeat.append(ayahDIC) 
-                   
-           for i in range (i_init, i_to):
-                    
-               y+= 1
-               _ayah_fill = uniformNumber(str(i))
-               _ayahID = str(s) + ":" + str(i)
-               for a in range(int(ayah_repeat)):
-                   ayah_i =  _surahfill + _ayah_fill + ".mp3"
-                   ayahDIC = {}
-                   ayahDIC['ayahID'] = _ayahID 
-                   ayahDIC['audio'] = ayah_i
-                   to_repeat.append(ayahDIC) 
-              
-               if i != i_init : # do not accmulate first ayah
-                   for x in range(int(repeat_hefz)):
-                       for d in range (i_init, i_init + y):    
-                           _ayah_fill = uniformNumber(str(d))
-                           _ayahID = str(s) + ":" + str(d)
+  
+    if n_cohort > 0 :  #Multiple Cohort Mode
+         _surahfill = uniformNumber(cohort_surah) 
+         #print('Multi', _surahfill, i_init, i_to)
+         
+         for ct in range(1, n_cohort+1):
+         
+             
+             for r in range (int(repeat)):             
+             
+                   i_init = int(cohort[ct]['ayah'])
+                   i_to = int(cohort[ct]['to_ayah']) + 1
+        
+                   y = 0
+         
+                   for p in range(int(repeat_prepare)):
+                       for i in range (i_init, i_to): 
+                           _ayah_fill = uniformNumber(str(i))
+                           _ayahID = cohort_surah + ":" + str(i)
+                          
                            ayah_i =  _surahfill + _ayah_fill + ".mp3"
                            ayahDIC = {}
                            ayahDIC['ayahID'] = _ayahID 
                            ayahDIC['audio'] = ayah_i
-                           to_repeat.append(ayahDIC)
+                           to_repeat.append(ayahDIC) 
+                           
+                   for i in range (i_init, i_to):
+                            
+                       y+= 1
+                       _ayah_fill = uniformNumber(str(i))
+                       _ayahID = cohort_surah + ":" + str(i)
+                       for a in range(int(ayah_repeat)):
+                           ayah_i =  _surahfill + _ayah_fill + ".mp3"
+                           ayahDIC = {}
+                           ayahDIC['ayahID'] = _ayahID 
+                           ayahDIC['audio'] = ayah_i
+                           to_repeat.append(ayahDIC) 
+                      
+                       if i != i_init : # do not accmulate first ayah
+                           for x in range(int(repeat_hefz)):
+                               for d in range (i_init, i_init + y):    
+                                   _ayah_fill = uniformNumber(str(d))
+                                   _ayahID = cohort_surah + ":" + str(d)
+                                   ayah_i =  _surahfill + _ayah_fill + ".mp3"
+                                   ayahDIC = {}
+                                   ayahDIC['ayahID'] = _ayahID 
+                                   ayahDIC['audio'] = ayah_i
+                                   to_repeat.append(ayahDIC)
+    
+             print(ayah_dic)
+             print(to_repeat)
+    
+    
+    
+    
+    else:  # one cohort mode
+    
+        for r in range (int(repeat)):
+            for s in range(int(surah), int(to_surah)+1):
+               
+               _surahfill = uniformNumber(str(s))
+               if n_surah == 1:
+                    _ayah= ayah
+                    i_init = int(_ayah)
+                    _toayah =   to_ayah
+               elif  n_surah > 1 and s ==  int(surah) :
+                    _ayah = ayah
+                    i_init = int(_ayah)
+                    _toayah =   str(ayahCount[int(s)-1])
+               elif  n_surah > 1 and s ==  int(to_surah) :
+                    _ayah = '1'
+                    i_init = int(_ayah)
+                    _toayah =   to_ayah
+               elif  n_surah > 1 and s > int(surah) and s < int(to_surah) :
+                     _ayah = '1'
+                     i_init = int(_ayah)
+                     _toayah =   str(ayahCount[int(s)-1])
+     
+               i_to =  int(_toayah) + 1  
+               y = 0
+     
+               
+               for p in range(int(repeat_prepare)):
+                   for i in range (i_init, i_to): 
+                       _ayah_fill = uniformNumber(str(i))
+                       _ayahID = str(s) + ":" + str(i)
+                      
+                       ayah_i =  _surahfill + _ayah_fill + ".mp3"
+                       ayahDIC = {}
+                       ayahDIC['ayahID'] = _ayahID 
+                       ayahDIC['audio'] = ayah_i
+                       to_repeat.append(ayahDIC) 
+                       
+               for i in range (i_init, i_to):
+                        
+                   y+= 1
+                   _ayah_fill = uniformNumber(str(i))
+                   _ayahID = str(s) + ":" + str(i)
+                   for a in range(int(ayah_repeat)):
+                       ayah_i =  _surahfill + _ayah_fill + ".mp3"
+                       ayahDIC = {}
+                       ayahDIC['ayahID'] = _ayahID 
+                       ayahDIC['audio'] = ayah_i
+                       to_repeat.append(ayahDIC) 
+                  
+                   if i != i_init : # do not accmulate first ayah
+                       for x in range(int(repeat_hefz)):
+                           for d in range (i_init, i_init + y):    
+                               _ayah_fill = uniformNumber(str(d))
+                               _ayahID = str(s) + ":" + str(d)
+                               ayah_i =  _surahfill + _ayah_fill + ".mp3"
+                               ayahDIC = {}
+                               ayahDIC['ayahID'] = _ayahID 
+                               ayahDIC['audio'] = ayah_i
+                               to_repeat.append(ayahDIC)
                 
            #print(to_repeat)   
                    
-    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data,  safah_dic=safah_dic, ayah_dic=ayah_dic, highlight=ayah_id, resolution=resolution, to_repeat=to_repeat, safah=safah, repeat=repeat, to_ayah=to_ayah, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList=surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah, QuranParts=QuranParts, part=part, hezb=hezb, quarter=quarter, page_position=page_position, repeat_hefz=repeat_hefz, repeat_prepare=repeat_prepare )
+    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data,  safah_dic=safah_dic, ayah_dic=ayah_dic, highlight=ayah_id, resolution=resolution, to_repeat=to_repeat, safah=safah, repeat=repeat, to_ayah=to_ayah, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList=surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah, QuranParts=QuranParts, part=part, hezb=hezb, quarter=quarter, page_position=page_position, repeat_hefz=repeat_hefz, repeat_prepare=repeat_prepare, cohort=cohort )
     
     
 @app.route('/' )
