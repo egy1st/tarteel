@@ -554,8 +554,8 @@ def index(ayah='1', to_ayah='1', surah='1', to_surah= '1', reciter='06', mode='R
     
     cohort = {}
     cohort[1] = {'surah':1, 'ayah': 1, 'to_ayah':1}
-    cohort[1] = {'surah':1, 'ayah': 1, 'to_ayah':1}
-    cohort[1] = {'surah':1, 'ayah': 1, 'to_ayah':1}
+    cohort[2] = {'surah':1, 'ayah': 1, 'to_ayah':1}
+    cohort[3] = {'surah':1, 'ayah': 1, 'to_ayah':1}
     
     surahNamesList = '' 
     for s in   range(len(surahNames)):
