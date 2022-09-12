@@ -553,7 +553,10 @@ def hefz():
 def index(ayah='1', to_ayah='1', surah='1', to_surah= '1', reciter='06', mode='R1', narration='N1', img_mode='T1', img_type='01', ayah_id="1:1", img_res='1053', safah='', repeat='1', selection_count = '1', ayah_repeat='1',  radioReciters = {}):
     
     cohort = {}
-   
+    cohort[1] = {'surah':1, 'ayah': 1, 'to_ayah':1}
+    cohort[1] = {'surah':1, 'ayah': 1, 'to_ayah':1}
+    cohort[1] = {'surah':1, 'ayah': 1, 'to_ayah':1}
+    
     surahNamesList = '' 
     for s in   range(len(surahNames)):
         surahNamesList +=   "<option value='" + str(s+1) + "'>" +  surahNames[s] + "</option>"
