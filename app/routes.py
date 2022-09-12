@@ -552,7 +552,8 @@ def hefz():
 #@mobile_template('/{mobile/}' + USER_LANG + '_index.html')
 def index(ayah='1', to_ayah='1', surah='1', to_surah= '1', reciter='06', mode='R1', narration='N1', img_mode='T1', img_type='01', ayah_id="1:1", img_res='1053', safah='', repeat='1', selection_count = '1', ayah_repeat='1',  radioReciters = {}):
     
-        
+    cohort = {}
+   
     surahNamesList = '' 
     for s in   range(len(surahNames)):
         surahNamesList +=   "<option value='" + str(s+1) + "'>" +  surahNames[s] + "</option>"
@@ -644,7 +645,7 @@ def index(ayah='1', to_ayah='1', surah='1', to_surah= '1', reciter='06', mode='R
         
     resolution = get_page_resolution(img_res, safah)
 
-    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, to_ayah=to_ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data, highlight=ayah_id, resolution=resolution, safah=safah, repeat=repeat, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList= surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah, QuranParts=QuranParts, page_position=page_position)
+    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, to_ayah=to_ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data, highlight=ayah_id, resolution=resolution, safah=safah, repeat=repeat, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList= surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah, QuranParts=QuranParts, page_position=page_position, cohort=cohort)
 
 
 @app.route('/login', methods=['GET', 'POST'])
