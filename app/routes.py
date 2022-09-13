@@ -522,13 +522,16 @@ def hefz():
                        ayahDIC['ayahID'] = _ayahID 
                        ayahDIC['audio'] = ayah_i
                        to_repeat.append(ayahDIC) 
-                       
+               inc =0       
                for i in range (i_init, i_to):
                         
                    y+= 1
+                   print('y', y, y % 3, inc)
+                   if y % 3 == 0:
+                       inc += 1
                    _ayah_fill = uniformNumber(str(i))
                    _ayahID = str(s) + ":" + str(i)
-                   for a in range(int(ayah_repeat)):
+                   for a in range(int(ayah_repeat)+inc):
                        ayah_i =  _surahfill + _ayah_fill + ".mp3"
                        ayahDIC = {}
                        ayahDIC['ayahID'] = _ayahID 

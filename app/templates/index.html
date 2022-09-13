@@ -146,7 +146,15 @@
 		 } else if (doit === 1 ){
 		 //const bottomDiv = document.getElementById("bottom_line");
 		 //bottomDiv.scrollIntoView();
-		 window.scrollTo(0,400);
+		 //alert( "Width: " + w + "<br>Height: " + h);
+		 let w = innerWidth;
+         let h = innerHeight;
+		 if( h >= 760) {
+         	 window.scrollTo(0,290);
+			 }
+		 else {
+			 window.scrollTo(0,400);
+			} 
 		 }
 		 
 

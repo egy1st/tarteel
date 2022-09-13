@@ -117,12 +117,12 @@
 			<div class="flex flex-wrap">
    
 			<div class="flex items-center mr-4">
-				<input {{radioCohort['one']}}  id="green-radio" type="radio" value="one" name="cohort_radio" class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+				<input onClick="showMultiCohort('off')" {{radioCohort['one']}}  id="green-radio" type="radio" value="one" name="cohort_radio" class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
 				<label for="green-radio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">مقطع واحدة</label>
 			</div>
 			
 			<div class="flex items-center mr-4">
-				<input  {{radioCohort['multi']}}  id="yellow-radio" type="radio" value="multi" name="cohort_radio" class="w-4 h-4 text-yellow-400 bg-gray-100 border-gray-300 focus:ring-yellow-500 dark:focus:ring-yellow-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+				<input  onClick="showMultiCohort('on')" {{radioCohort['multi']}}  id="yellow-radio" type="radio" value="multi" name="cohort_radio" class="w-4 h-4 text-yellow-400 bg-gray-100 border-gray-300 focus:ring-yellow-500 dark:focus:ring-yellow-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
 				<label for="yellow-radio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">عدة مقاطع</label>
 			</div>
 			
@@ -130,6 +130,7 @@
 			</div>
 			</div>
 			<hr>
+			
 			<div class="grid gap-6 mb-6 md:grid-cols-4">
 			<div>
 				<label for="repeat_prepare_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> قراءة تمهيدية</label>
@@ -154,7 +155,7 @@
 			</div>
 			
 			<hr>
-			
+			<div id="div-multi-cohort" style="display:none;">
 			<div class="grid gap-6 mb-6 md:grid-cols-3">
 			<div>
 				<label for="cohort1_surah_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">رقم السورة</label>
@@ -199,7 +200,7 @@
 				<input onChange="" type="text" id="cohort3_toayah" name="cohort3_toayah" value="{{cohort[3]['to_ayah']}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
 			</div>
 	        </div>
-		    
+		    </div>
 			<hr>
 			<div class="grid gap-6 mb-6 md:grid-cols-2">
 			<button type="submit"  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><b>(1)</b><br>  تجهيز</button>

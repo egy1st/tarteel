@@ -80,6 +80,21 @@
 			  }
 			}
 			
+			
+			function showMultiCohort(mode) {
+			  var x = document.getElementById("div-multi-cohort");
+			  //if (x.style.display === "none") {
+			  if (mode === 'on') {
+				 x.style.display = "block";
+			  }  else if (mode === 'off') {
+					x.style.display = "none";
+			  } 
+			  
+			}
+
+            
+
+			
 		function formPrpare() {
                
 			document.getElementById("form_fromto").submit();
