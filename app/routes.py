@@ -535,8 +535,9 @@ def hefz():
                         
                    y+= 1
                    #print('y', y, y % 3, inc)
-                   if y % 3 == 0:
-                       inc += 1
+                   if int(repeat_hefz) > 0: 
+                       if y % 3 == 0:
+                           inc += 1
                    _ayah_fill = uniformNumber(str(i))
                    _ayahID = str(s) + ":" + str(i)
                    for a in range(int(ayah_repeat)+inc):
