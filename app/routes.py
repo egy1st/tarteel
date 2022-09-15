@@ -157,6 +157,9 @@ def hefz():
     ayah_dic = {}
     safah_dic = {}
     n_cohort = 0
+    cohort_mode = ""
+    repeat_prepare = '0'
+    repeat_hefz = '0'
     
     surahNamesList = '' 
     for s in   range(len(surahNames)):
@@ -228,10 +231,10 @@ def hefz():
     if ayah == '':
         ayah = "1"
         
-    if repeat_hefz == '':
+    if repeat_hefz is None or repeat_hefz == "":
         repeat_hefz = "0"
         
-    if repeat_prepare == '':
+    if repeat_prepare is None or repeat_prepare == "":
         repeat_prepare = "0"
         
     if to_ayah is None:
@@ -253,7 +256,12 @@ def hefz():
         quarter = "1"  
         
     ayah_pointer = ""
+    
+    if cohort_mode == "" :
+        cohort_mode = "one"
+        
     if  safah == "":
+
    
         #n_pages = safah_end - safah + 1
         #n_surah = (int(to_surah) - int(surah)) + 1
@@ -551,7 +559,7 @@ def hefz():
                 
            #print(to_repeat)   
                    
-    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data,  safah_dic=safah_dic, ayah_dic=ayah_dic, highlight=ayah_id, resolution=resolution, to_repeat=to_repeat, safah=safah, repeat=repeat, to_ayah=to_ayah, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList=surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah, QuranParts=QuranParts, part=part, hezb=hezb, quarter=quarter, page_position=page_position, repeat_hefz=repeat_hefz, repeat_prepare=repeat_prepare, cohort=cohort, radioCohort=radioCohort )
+    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data,  safah_dic=safah_dic, ayah_dic=ayah_dic, highlight=ayah_id, resolution=resolution, to_repeat=to_repeat, safah=safah, repeat=repeat, to_ayah=to_ayah, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList=surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah, QuranParts=QuranParts, part=part, hezb=hezb, quarter=quarter, page_position=page_position, repeat_hefz=repeat_hefz, repeat_prepare=repeat_prepare, cohort=cohort, radioCohort=radioCohort, cohort_mode=cohort_mode )
     
     
 @app.route('/' )

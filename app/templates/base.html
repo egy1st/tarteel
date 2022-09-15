@@ -92,9 +92,38 @@
 			  
 			}
 
-            
-
+          
+         document.addEventListener("keydown", function(e) {
+			        //alert(e.keyCode);
+					if (e.keyCode === 39) {
+					
+					//console.log('Key "${e.key}" pressed [event: keydown]');
+					window.location.href= "{{ url_for('index', surah=surah, ayah=next_ayah, reciter=reciter) }}" ;
+					}
+					
+					else if (e.keyCode === 37) {
+					
+					//console.log('Key "${e.key}" pressed [event: keydown]');
+					window.location.href= "{{ url_for('index', surah=surah, ayah=prev_ayah, reciter=reciter) }}" ;
+					}
+					
+					else if (e.keyCode === 33) {
+					
+						window.location.href="{{ url_for('hefz', surah=surah, safah=safah+1, reciter=reciter, repeat=repeat, ayah_repeat=ayah_repeat, to_surah=to_surah, to_ayah=to_ayah ) }}"
+					}
+					
+					else if (e.keyCode === 34) {
+					
+						window.location.href="{{ url_for('hefz', surah=surah, safah=safah+1, reciter=reciter, repeat=repeat, ayah_repeat=ayah_repeat, to_surah=to_surah, to_ayah=to_ayah) }}"
+					}
+					
+					
+					
+					
+				 
+		});		
 			
+	
 		function formPrpare() {
                
 			document.getElementById("form_fromto").submit();
