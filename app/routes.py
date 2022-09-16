@@ -169,20 +169,28 @@ def hefz():
     cohort[1] = {}
     cohort[2] = {}
     cohort[3] = {}
+    cohort[4] = {}
+    cohort[5] = {}
     
     if  request.method == 'POST':
         surah = request.form['surah']
         cohort[1]['surah'] = request.form['cohort1_surah']
         cohort[2]['surah'] = request.form['cohort2_surah']
         cohort[3]['surah'] = request.form['cohort3_surah']
+        cohort[4]['surah'] = request.form['cohort4_surah']
+        cohort[5]['surah'] = request.form['cohort5_surah']
         ayah = request.form['ayah']
         cohort[1]['ayah'] = request.form['cohort1_ayah']
         cohort[2]['ayah'] = request.form['cohort2_ayah']
         cohort[3]['ayah'] = request.form['cohort3_ayah']
+        cohort[4]['ayah'] = request.form['cohort4_ayah']
+        cohort[5]['ayah'] = request.form['cohort5_ayah']
         to_ayah = request.form['to_ayah']
         cohort[1]['to_ayah'] = request.form['cohort1_toayah']
         cohort[2]['to_ayah']  = request.form['cohort2_toayah']
         cohort[3]['to_ayah']  = request.form['cohort3_toayah']
+        cohort[4]['to_ayah']  = request.form['cohort4_toayah']
+        cohort[5]['to_ayah']  = request.form['cohort5_toayah']
         
         safah = request.form['safah']
         reciter_mode = request.form.getlist('reciters')[0].split("-")
@@ -195,6 +203,7 @@ def hefz():
         to_surah = request.form['to_surah']
         repeat = request.form['repeat']
         repeat_hefz = request.form['repeat_hefz']
+        hefz_toggle = request.form['hefz_toggle']
         repeat_prepare = request.form['repeat_prepare']
         ayah_repeat = request.form['ayah_repeat']
         part = int(request.form.getlist('partlist')[0])
@@ -218,6 +227,7 @@ def hefz():
         img_type = request.args.get('img_type')
         repeat = request.args.get('repeat')
         ayah_repeat = request.args.get('ayah_repeat')
+        hefz_toggle = request.args.get('hefz_toggle')
         part = request.args.get('part')
         hezb = request.args.get('hezb')
         quarter = request.args.get('quarter')
@@ -312,15 +322,22 @@ def hefz():
             cohort_surah = cohort[1]['surah']
             cohort_ayah = cohort[1]['ayah'] 
             ayah_id = cohort_surah + ":" + cohort_ayah
-            if cohort[3]['to_ayah'] != '' :
-                cohort_toayah = cohort[3]['to_ayah']
-                n_cohort = 3
-            elif  cohort[2]['to_ayah'] != ''  :
-                  cohort_toayah = cohort[2]['to_ayah']
-                  n_cohort = 2
+            if cohort[5]['to_ayah'] != '' :
+                cohort_toayah = cohort[5]['to_ayah']
+                n_cohort = 5
+            elif  cohort[4]['to_ayah'] != ''  :
+                  cohort_toayah = cohort[4]['to_ayah']
+                  n_cohort = 4
+            elif  cohort[3]['to_ayah'] != '' :
+                  cohort_toayah = cohort[3]['to_ayah'] 
+                  n_cohort = 3
+            elif  cohort[2]['to_ayah'] != '' :
+                  cohort_toayah = cohort[2]['to_ayah']                  
+                  n_cohort = 2   
             elif  cohort[1]['to_ayah'] != '' :
-                  cohort_toayah = cohort[1]['to_ayah']   
-                  n_cohort = 1                  
+                  cohort_toayah = cohort[1]['to_ayah']
+                  n_cohort = 1                 
+                  
             toayah_id = cohort_surah + ":" + cohort_toayah
             safah_data = db_helper.get_safah_data_from_ayah_key(ayah_id, img_res)
             safah = int(safah_data[0]['page'])
@@ -462,11 +479,16 @@ def hefz():
                            ayahDIC = {}
                            ayahDIC['ayahID'] = _ayahID 
                            ayahDIC['audio'] = ayah_i
-                           to_repeat.append(ayahDIC) 
+                           to_repeat.append(ayahDIC)
                            
+                   inc = 0        
                    for i in range (i_init, i_to):
-                            
+                   
                        y+= 1
+                       if int(repeat_hefz) > 0: 
+                           if y % 4 == 0:
+                               inc += 1
+                       
                        _ayah_fill = uniformNumber(str(i))
                        _ayahID = cohort_surah + ":" + str(i)
                        for a in range(int(ayah_repeat)):
@@ -534,7 +556,6 @@ def hefz():
                for i in range (i_init, i_to):
                         
                    y+= 1
-                   #print('y', y, y % 3, inc)
                    if int(repeat_hefz) > 0: 
                        if y % 4 == 0:
                            inc += 1
@@ -575,6 +596,8 @@ def index(ayah='1', to_ayah='1', surah='1', to_surah= '1', reciter='06', mode='R
     cohort[1] = {'surah':1, 'ayah': 1, 'to_ayah':1}
     cohort[2] = {'surah':1, 'ayah': 1, 'to_ayah':1}
     cohort[3] = {'surah':1, 'ayah': 1, 'to_ayah':1}
+    cohort[4] = {'surah':1, 'ayah': 1, 'to_ayah':1}
+    cohort[5] = {'surah':1, 'ayah': 1, 'to_ayah':1}
     
     surahNamesList = '' 
     for s in   range(len(surahNames)):

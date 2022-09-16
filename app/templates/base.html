@@ -91,6 +91,18 @@
 			  } 
 			  
 			}
+			
+			function showHefSection(mode) {
+			  var x = document.getElementById("div-hefz-section");
+			  //if (x.style.display === "none") {
+			  if (mode === 'on') {
+				 x.style.display = "block";
+			  }  else if (mode === 'off') {
+					x.style.display = "none";
+			  } 
+			  
+			}
+			
 
           
          document.addEventListener("keydown", function(e) {

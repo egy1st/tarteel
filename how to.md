@@ -15,8 +15,11 @@ pip install -r requirements.txt
 pip freeze -r requirements.txt
 
 
-# How to run flask
+# How to run flask in dev mode using gunicorn 
 flask run
+
+# How to run flask in prod mode using waitress
+waitress-serve --host 127.0.0.1 app:app
 
 
 # How to heroku
