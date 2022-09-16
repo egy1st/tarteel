@@ -8,6 +8,12 @@ py -3 -m venv venv
 
 venv\Scripts\activate
 
+# install requiremts
+pip install -r requirements.txt
+
+# freeze requiremts
+pip freeze -r requirements.txt
+
 
 # How to run flask
 flask run
