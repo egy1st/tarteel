@@ -383,7 +383,7 @@ def hefz():
         mode='R1' 
         
     if reciter is None:
-        reciter='01'
+        reciter='06'
     if radioReciters == {}:
         radioReciters["R1-" + reciter]='checked=""'   
 
@@ -536,7 +536,7 @@ def hefz():
                    y+= 1
                    #print('y', y, y % 3, inc)
                    if int(repeat_hefz) > 0: 
-                       if y % 3 == 0:
+                       if y % 4 == 0:
                            inc += 1
                    _ayah_fill = uniformNumber(str(i))
                    _ayahID = str(s) + ":" + str(i)
@@ -603,7 +603,7 @@ def index(ayah='1', to_ayah='1', surah='1', to_surah= '1', reciter='06', mode='R
     if mode is None:
         mode='R1' 
     if reciter is None:
-        reciter='01'
+        reciter='06'
     if radioReciters == {}:
         radioReciters["R1-" + reciter]='checked=""'    
     if img_mode is None:
