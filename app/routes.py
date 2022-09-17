@@ -610,11 +610,11 @@ def index(ayah='1', to_ayah='1', surah='1', to_surah= '1', reciter='06', mode='R
     radioCohort = {}
     toggleHefz = ""
     cohort = {}
-    cohort[1] = {'surah':1, 'ayah': 1, 'to_ayah':1}
-    cohort[2] = {'surah':1, 'ayah': 1, 'to_ayah':1}
-    cohort[3] = {'surah':1, 'ayah': 1, 'to_ayah':1}
-    cohort[4] = {'surah':1, 'ayah': 1, 'to_ayah':1}
-    cohort[5] = {'surah':1, 'ayah': 1, 'to_ayah':1}
+    cohort[1] = {'surah':2, 'ayah': 1, 'to_ayah':5}
+    cohort[2] = {'surah':2, 'ayah': '', 'to_ayah':''}
+    cohort[3] = {'surah':2, 'ayah': '', 'to_ayah':''}
+    cohort[4] = {'surah':2, 'ayah': '', 'to_ayah':''}
+    cohort[5] = {'surah':2, 'ayah': '', 'to_ayah':''}
     
     surahNamesList = '' 
     for s in   range(len(surahNames)):
