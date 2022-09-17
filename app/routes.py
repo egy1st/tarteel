@@ -152,7 +152,7 @@ def hefz():
     selection_count = 1
     radioReciters = {}
     radioCohort = {}
-    toggleHefz = {}
+    toggleHefz = ""
     TO_SCROLL = 580
     ayah_pointer = 1
     ayah_dic = {}
@@ -199,18 +199,18 @@ def hefz():
         mode = reciter_mode[0]
         reciter = reciter_mode[1]
         cohort_mode = request.form.getlist('cohort_radio')[0]
-        print('cohort_mode', cohort_mode)
-        hefz_mode = request.form.getlist('hefz_toggle')[0]
-        print('hefz_mode', hefz_mode)
+        #hefz_mode = request.form.getlist('hefz_toggle')
+        #print('hefz_mode', hefz_mode)
         radioReciters[mode + "-" + reciter] = 'checked=""'
         radioCohort[cohort_mode] = 'checked=""'
-        toggleHefz[hefz_mode] = 'checked=""'
+        toggleHefz = 'checked=""'
+        #hefz_mode = "ON"
         
         to_ayah = request.form['to_ayah']
         to_surah = request.form['to_surah']
         repeat = request.form['repeat']
         repeat_hefz = request.form['repeat_hefz']
-        hefz_toggle = request.form['hefz_toggle']
+        #hefz_toggle = request.form['hefz_toggle']
         repeat_prepare = request.form['repeat_prepare']
         ayah_repeat = request.form['ayah_repeat']
         part = int(request.form.getlist('partlist')[0])
@@ -278,7 +278,7 @@ def hefz():
         cohort_mode = "one"
         
     if hefz_mode == "" :
-        cohort_mode = "off"    
+        hefz_mode = "ON"    
         
     if  safah == "":
 
@@ -288,7 +288,7 @@ def hefz():
         
         cohort_surah = cohort[1]['surah']
         #if cohort_mode == 'one' :  #One Cohort Mode
-        if hefz_mode == 'off' :  #listening mode
+        if hefz_mode == 'OFF' :  #listening mode
         
             n_cohort = 0
             safah_data = db_helper.get_safah_data_from_ayah_key(ayah_id, img_res)
@@ -331,7 +331,7 @@ def hefz():
                         safah_dic[i] = safah_next
                         
         #elif cohort_mode == 'multi':   #cohort_mode Multi cohort mode
-        elif hefz_mode == 'on':   #hefz mode
+        elif hefz_mode == 'ON':   #hefz mode
             cohort_surah = cohort[1]['surah']
             cohort_ayah = cohort[1]['ayah'] 
             ayah_id = cohort_surah + ":" + cohort_ayah
@@ -449,6 +449,7 @@ def hefz():
     else:
         page_path = static_helper.get_image_path_from_safah(safah, img_res)  
     
+    print('img_res', img_res,'safah', safah)
     resolution = get_page_resolution(img_res, safah)
     
     page_position = ['', ''] 
@@ -470,7 +471,7 @@ def hefz():
     i_to = 1
   
     #if cohort_mode == 'multi' :  #Multiple Cohort Mode
-    if hefz_mode == 'on' :  #Hefz mode
+    if hefz_mode == 'ON' :  #Hefz mode
          _surahfill = uniformNumber(cohort_surah) 
          #print('Multi', _surahfill, i_init, i_to)
          
@@ -523,8 +524,8 @@ def hefz():
                                    ayahDIC['audio'] = ayah_i
                                    to_repeat.append(ayahDIC)
     
-             #print(ayah_dic)
-             #print(to_repeat)
+             print(ayah_dic)
+             print(to_repeat)
     
     
     
@@ -607,7 +608,7 @@ def hefz():
 def index(ayah='1', to_ayah='1', surah='1', to_surah= '1', reciter='06', mode='R1', narration='N1', img_mode='T1', img_type='01', ayah_id="1:1", img_res='1053', safah='', repeat='1', selection_count = '1', ayah_repeat='1',  radioReciters = {}):
     
     radioCohort = {}
-    toggleHefz = {}
+    toggleHefz = ""
     cohort = {}
     cohort[1] = {'surah':1, 'ayah': 1, 'to_ayah':1}
     cohort[2] = {'surah':1, 'ayah': 1, 'to_ayah':1}
