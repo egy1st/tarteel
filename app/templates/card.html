@@ -19,7 +19,6 @@
 			<br>
 			<hr>
 			
-			
             <div class="grid gap-6 mb-6 md:grid-cols-3">
 			<select id="partlist" name="partlist"  onChange="fnPartChanged();" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
 			  <option selected value='0'>اختر الجزء</option>
@@ -90,13 +89,13 @@
 			
 			<div dir="ltr">
 			<label for="hefz_toggle" class="inline-flex relative items-center cursor-pointer">
-			  <input onClick="showHefSection('on')" type="checkbox" value="" id="hefz_toggle" name="hefz_toggle" class="sr-only peer" >
+			  <input onClick="showHefSection('on')" {{toggleHefz['on']}} type="checkbox" value="" id="hefz_toggle" name="hefz_toggle" class="sr-only peer" >
 			  <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-			  <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">وضعية الحفظ</span>
+			  <span id="hefz_text" class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">وضعية الحفظ</span>
 			</label>
 			</div>
 			
-			<div id="div-hefz-section"  style="display:none;">
+			<div id="div-listen-section"  style="display:block;">
 			<div class="grid gap-6 mb-6 md:grid-cols-3">
 			<div>
 				<label for="ayah_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">من آية</label>
@@ -115,11 +114,11 @@
 						
 			<div class="grid gap-6 mb-6 md:grid-cols-3">
 			<div>
-				<label for="to_ayah_lablel" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">حتى آية</label>
+				<label for="to_ayah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">حتى آية</label>
 				<input onChange="" type="text" id="to_ayah" name="to_ayah" value="{{to_ayah}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
 			</div>
 			<div>
-				<label for="surah_label2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">رقم السورة</label>
+				<label for="to_surah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">رقم السورة</label>
 				<input onChange="" type="text" id="to_surah" name="to_surah"  value="{{to_surah}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
 			</div>
 			
@@ -139,11 +138,13 @@
 			
 			</div>
 			</div>
+			</div>
 			<hr>
 			
+			<div id="div-hefz-section"  style="display:none;">
 			<div class="grid gap-6 mb-6 md:grid-cols-4">
 			<div>
-				<label for="repeat_prepare_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> قراءة تمهيدية</label>
+				<label for="repeat_prepare" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> قراءة تمهيدية</label>
 				<input onChange="" type="text" id="repeat_prepare"  name="repeat_prepare" value="{{repeat_prepare}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
 			</div>
 			<div>
@@ -151,7 +152,7 @@
 				<input onfocusout="" type="text" id="ayah_repeat" name="ayah_repeat" value="{{ayah_repeat}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
 			</div>
 			<div>
-				<label for="repeat_hefz_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> تكرار تراكمى</label>
+				<label for="repeat_hefz" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> تكرار تراكمى</label>
 				<input onChange="" type="text" id="repeat_hefz"  name="repeat_hefz" value="{{repeat_hefz}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
 			</div>
 			<div>
@@ -160,83 +161,81 @@
 			</div>
 			
 			
-			
-				
 			</div>
 			
 			<hr>
 			<div id="div-multi-cohort" style="display:block;">
 			<div class="grid gap-6 mb-6 md:grid-cols-3">
 			<div>
-				<label for="cohort1_surah_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">رقم السورة</label>
+				<label for="cohort1_surah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">رقم السورة</label>
 				<input onChange="" type="text" id="cohort1_surah" name="cohort1_surah" value="{{cohort[1]['surah']}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
 			</div>
 			<div>
-				<label for="cohort1_ayah_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">من آية</label>
+				<label for="cohort1_ayah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">من آية</label>
 				<input onChange="" type="text" id="cohort1_ayah"  name="cohort1_ayah" value="{{cohort[1]['ayah']}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
 			</div>
 			<div>
-				<label for="cohort1_toayah_lablel" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">حتى آية</label>
+				<label for="cohort1_toayah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">حتى آية</label>
 				<input onChange="" type="text" id="cohort1_toayah" name="cohort1_toayah" value="{{cohort[1]['to_ayah']}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
 			</div>
 			</div>
 			
 			<div class="grid gap-6 mb-6 md:grid-cols-3">
 			<div>
-				<label for="cohort2_surah_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">مقطع: 2</label>
+				<label for="cohort2_surah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">مقطع: 2</label>
 				<input onChange="" type="text" id="cohort2_surah" name="cohort2_surah" value="{{cohort[1]['surah']}}" class="hidden bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
 			</div>
 			<div>
-				<label for="cohort2_ayah_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">من آية</label>
+				<label for="cohort2_ayah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">من آية</label>
 				<input onChange="" type="text" id="cohort2_ayah"  name="cohort2_ayah" value="{{cohort[2]['ayah']}} " class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
 			</div>
 			<div>
-				<label for="cohort2_toayah_lablel" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">حتى آية</label>
+				<label for="cohort2_toayah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">حتى آية</label>
 				<input onChange="" type="text" id="cohort2_toayah" name="cohort2_toayah" value="{{cohort[2]['to_ayah']}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
 			</div>
 			</div>
 			
 			<div class="grid gap-6 mb-6 md:grid-cols-3">
 			<div>
-				<label for="cohort3_surah_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">مفطع: 3</label>
+				<label for="cohort3_surah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">مفطع: 3</label>
 				<input onChange="" type="text" id="cohort3_surah" name="cohort3_surah" value="{{cohort[1]['surah']}}" class="hidden bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
 			</div>
 			<div>
-				<label for="cohort3_ayah_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">من آية</label>
+				<label for="cohort3_ayah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">من آية</label>
 				<input onChange="" type="text" id="cohort3_ayah"  name="cohort3_ayah" value="{{cohort[3]['ayah']}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
 			</div>
 			<div>
-				<label for="cohort3_toayah_lablel" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">حتى آية</label>
+				<label for="cohort3_toayah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">حتى آية</label>
 				<input onChange="" type="text" id="cohort3_toayah" name="cohort3_toayah" value="{{cohort[3]['to_ayah']}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
 			</div>
 	        </div>
 			
 			<div class="grid gap-6 mb-6 md:grid-cols-3">
 			<div>
-				<label for="cohort4_surah_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">مقطع: 4</label>
+				<label for="cohort4_surah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">مقطع: 4</label>
 				<input onChange="" type="text" id="cohort4_surah" name="cohort4_surah" value="{{cohort[1]['surah']}}" class="hidden bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
 			</div>
 			<div>
-				<label for="cohort4_ayah_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">من آية</label>
+				<label for="cohort4_ayah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">من آية</label>
 				<input onChange="" type="text" id="cohort4_ayah"  name="cohort4_ayah" value="{{cohort[4]['ayah']}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
 			</div>
 			<div>
-				<label for="cohort4_toayah_lablel" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">حتى آية</label>
+				<label for="cohort4_toayah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">حتى آية</label>
 				<input onChange="" type="text" id="cohort4_toayah" name="cohort4_toayah" value="{{cohort[4]['to_ayah']}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
 			</div>
 	        </div>
 			
 			<div class="grid gap-6 mb-6 md:grid-cols-3">
 			<div>
-				<label for="cohort5_surah_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">مقطع: 5</label>
+				<label for="cohort5_surah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">مقطع: 5</label>
 				<input onChange="" type="text" id="cohort5_surah" name="cohort5_surah" value="{{cohort[1]['surah']}}" class="hidden bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
 			</div>
 			<div>
-				<label for="cohort5_ayah_label" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">من آية</label>
+				<label for="cohort5_ayah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">من آية</label>
 				<input onChange="" type="text" id="cohort5_ayah"  name="cohort5_ayah" value="{{cohort[5]['ayah']}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
 			</div>
 			<div>
-				<label for="cohort5_toayah_lablel" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">حتى آية</label>
+				<label for="cohort5_toayah" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">حتى آية</label>
 				<input onChange="" type="text" id="cohort5_toayah" name="cohort5_toayah" value="{{cohort[5]['to_ayah']}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" >
 			</div>
 	        </div>

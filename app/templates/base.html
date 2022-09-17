@@ -93,12 +93,17 @@
 			}
 			
 			function showHefSection(mode) {
-			  var x = document.getElementById("div-hefz-section");
-			  //if (x.style.display === "none") {
-			  if (mode === 'on') {
-				 x.style.display = "block";
-			  }  else if (mode === 'off') {
-					x.style.display = "none";
+			  var hefz = document.getElementById("div-hefz-section");
+			  var listen = document.getElementById("div-listen-section");
+			  var mode_text = document.getElementById("hefz_text");
+			  if (hefz.style.display === "none") {
+				 hefz.style.display = "block";
+				 listen.style.display = "none";
+				 mode_text.innerHTML = "وضعية الحفظ";
+			  } else if (hefz.style.display === "block") {
+					hefz.style.display = "none";
+				    listen.style.display = "block";
+					mode_text.innerHTML = "وضعية الاستماع";
 			  } 
 			  
 			}
