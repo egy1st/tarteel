@@ -10,7 +10,7 @@
 		<meta name="keywords" content="ترتيل" />
 		<title>ورتل القرآن ترتيلا</title>
 		
-		<meta property="og:url" content="https://www.tarteel.net/hefz?surah={{surah}}&safah={{safah}}&reciter=01&repeat=1&ayah_repeat=1" />
+		<meta property="og:url" content="https://tarteel.net/hefz?surah={{surah}}&safah={{safah}}&reciter=01&repeat=1&ayah_repeat=1" />
 		<meta property="og:image:type"        content="image/jpeg" />
 		<meta property="og:image"              content="https://cdn.tarteel.net/ayat/N1/img/T2/02/{{safah}}.jpg" />
         <meta property="og:image:width" content="400" />
@@ -95,15 +95,15 @@
 			function showHefSection(mode) {
 			  var hefz = document.getElementById("div-hefz-section");
 			  var listen = document.getElementById("div-listen-section");
-			  var mode_text = document.getElementById("hefz_text");
+			  var hefz_btn = document.getElementById("hefz_btn");
 			  if (hefz.style.display === "none") {
 				 hefz.style.display = "block";
 				 listen.style.display = "none";
-				 mode_text.innerHTML = "وضعية الحفظ";
+				 //hefz_btn.checked = True;
 			  } else if (hefz.style.display === "block") {
 					hefz.style.display = "none";
 				    listen.style.display = "block";
-					mode_text.innerHTML = "وضعية الاستماع";
+					//hefz_btn.checked = False;
 			  } 
 			  
 			}

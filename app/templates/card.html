@@ -87,13 +87,23 @@
 				<input onfocusout="" type="text" id="safh" name="safah" value="" class="hidden bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
 			</div>
 			
-			<div dir="ltr">
-			<label for="hefz_toggle" class="inline-flex relative items-center cursor-pointer">
-			  <input onClick="showHefSection('on')"  type="checkbox" value="{{toggleHefz}}" id="hefz_toggle" name="hefz_toggle" class="sr-only peer" >
-			  <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-			  <span id="hefz_text" class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">وضعية الاستماع</span>
-			</label>
+					
+		
+			
+			<div class="flex flex-wrap">
+			<div class="flex items-center mr-4">
+				<input onClick="showHefSection('OFF')" {{radioCohort['OFF']|safe}}  id="listen_btn" type="radio" value="OFF" name="cohort_radio" class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+				<label for="green-radio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">وضعية الاستماع</label>
 			</div>
+			
+			<div class="flex items-center mr-4">
+				<input  onClick="showHefSection('ON')" {{radioCohort['ON']|safe}}  id="hefz_btn" type="radio" value="ON" name="cohort_radio" class="w-4 h-4 text-yellow-400 bg-gray-100 border-gray-300 focus:ring-yellow-500 dark:focus:ring-yellow-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+				<label for="yellow-radio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">وضعية التحفيظ</label>
+			</div>
+			
+			
+			</div>
+			
 			
 			<div id="div-listen-section"  style="display:block;">
 			<div class="grid gap-6 mb-6 md:grid-cols-3">
@@ -125,16 +135,6 @@
 			<div class="flex flex-wrap">
 
    
-			<div class="hidden flex items-center mr-4">
-				<input onClick="" {{radioCohort['one']}}  id="green-radio" type="radio" value="one" name="cohort_radio" class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-				<label for="green-radio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">مقطع واحدة</label>
-			</div>
-			
-			<div class="hidden flex items-center mr-4">
-				<input  onClick="showMultiCohort('on')" {{radioCohort['multi']}}  id="yellow-radio" type="radio" value="multi" name="cohort_radio" class="w-4 h-4 text-yellow-400 bg-gray-100 border-gray-300 focus:ring-yellow-500 dark:focus:ring-yellow-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-				<label for="yellow-radio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">عدة مقاطع</label>
-			</div>
-			
 			
 			</div>
 			</div>

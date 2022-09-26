@@ -60,6 +60,7 @@ PAGE_CONFIG = {
 }
 
 def get_page_resolution(res_key, safah):
+   
     if res_key == '1053' and safah < 3:
         resolution = PAGE_CONFIG['1053']['res_initial']
     else:

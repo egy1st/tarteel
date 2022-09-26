@@ -152,14 +152,12 @@ def hefz():
     selection_count = 1
     radioReciters = {}
     radioCohort = {}
-    toggleHefz = ""
     TO_SCROLL = 580
     ayah_pointer = 1
     ayah_dic = {}
     safah_dic = {}
     n_cohort = 0
-    cohort_mode = ""
-    hefz_mode = ""
+    hefz_mode = "OFF"
     repeat_prepare = '0'
     repeat_hefz = '0'
     
@@ -198,19 +196,17 @@ def hefz():
         reciter_mode = request.form.getlist('reciters')[0].split("-")
         mode = reciter_mode[0]
         reciter = reciter_mode[1]
-        cohort_mode = request.form.getlist('cohort_radio')[0]
-        #hefz_mode = request.form.getlist('hefz_toggle')
-        #print('hefz_mode', hefz_mode)
+        hefz_mode = request.form.getlist('cohort_radio')[0]
         radioReciters[mode + "-" + reciter] = 'checked=""'
-        radioCohort[cohort_mode] = 'checked=""'
-        toggleHefz = 'checked=""'
-        #hefz_mode = "ON"
-        
+        radioCohort[hefz_mode] = 'checked=""'
+        print('hefz_mode hefz_mode', hefz_mode)
+             
         to_ayah = request.form['to_ayah']
         to_surah = request.form['to_surah']
         repeat = request.form['repeat']
         repeat_hefz = request.form['repeat_hefz']
-        #hefz_toggle = request.form['hefz_toggle']
+       
+        
         repeat_prepare = request.form['repeat_prepare']
         ayah_repeat = request.form['ayah_repeat']
         part = int(request.form.getlist('partlist')[0])
@@ -234,7 +230,6 @@ def hefz():
         img_type = request.args.get('img_type')
         repeat = request.args.get('repeat')
         ayah_repeat = request.args.get('ayah_repeat')
-        hefz_toggle = request.args.get('hefz_toggle')
         part = request.args.get('part')
         hezb = request.args.get('hezb')
         quarter = request.args.get('quarter')
@@ -274,25 +269,21 @@ def hefz():
         
     ayah_pointer = ""
     
-    if cohort_mode == "" :
-        cohort_mode = "one"
-        
     if hefz_mode == "" :
-        hefz_mode = "ON"    
-        
+        hefz_mode = "OFF" #listenng is default
+          
     if  safah == "":
 
-   
-        #n_pages = safah_end - safah + 1
-        #n_surah = (int(to_surah) - int(surah)) + 1
+        print('img_res', img_res,'safah', type(safah), safah==None , safah=="", safah == 0, 'hefz_mode', hefz_mode)
         
         cohort_surah = cohort[1]['surah']
-        #if cohort_mode == 'one' :  #One Cohort Mode
         if hefz_mode == 'OFF' :  #listening mode
         
+            print("Listen Mode")
             n_cohort = 0
             safah_data = db_helper.get_safah_data_from_ayah_key(ayah_id, img_res)
             safah = int(safah_data[0]['page'])
+            print('hefz_mode', hefz_mode, 'safah', safah)
             safah_data_end = db_helper.get_safah_data_from_ayah_key(toayah_id, img_res)
             safah_end = int(safah_data_end[0]['page'])
         
@@ -330,8 +321,8 @@ def hefz():
                     if ayah_pointer not in safah_dic:
                         safah_dic[i] = safah_next
                         
-        #elif cohort_mode == 'multi':   #cohort_mode Multi cohort mode
         elif hefz_mode == 'ON':   #hefz mode
+            print("Hefz Mode")
             cohort_surah = cohort[1]['surah']
             cohort_ayah = cohort[1]['ayah'] 
             ayah_id = cohort_surah + ":" + cohort_ayah
@@ -390,9 +381,10 @@ def hefz():
 
 
            
-    else: # not None  
+    else: # safah is not empty  
         safah_data= db_helper.get_data_for_safah(safah)
         safah = int(safah)
+        print('safah init', safah)
         ayah = str(pages[safah]['from'])
         to_ayah = str(pages[safah]['to'])
         surah = str(pages[safah]['surah'])
@@ -418,7 +410,8 @@ def hefz():
         radioReciters["R1-" + reciter]='checked=""'   
 
     if radioCohort == {} :
-        radioCohort['one'] = 'checked=""'    
+        radioCohort['OFF'] = 'checked=""'  
+        radioCohort['ON'] = ''           
         
     if img_mode is None:
         img_mode='T1' 
@@ -449,7 +442,7 @@ def hefz():
     else:
         page_path = static_helper.get_image_path_from_safah(safah, img_res)  
     
-    print('img_res', img_res,'safah', safah)
+    #print('img_res', img_res,'safah', type(safah), safah==None , safah=="", safah == 0)
     resolution = get_page_resolution(img_res, safah)
     
     page_position = ['', ''] 
@@ -460,7 +453,7 @@ def hefz():
         page_position[0] = 'right'
         page_position[1] = 'left'
         
-        
+    print('page_position', page_position)     
     to_repeat = []
     ayahDIC = {}
     ayahDIC['url'] = "https://cdn.tarteel.net/ayat/N1/mp3/" + mode + "/" + reciter + "/"
@@ -470,7 +463,6 @@ def hefz():
     i_init = 1
     i_to = 1
   
-    #if cohort_mode == 'multi' :  #Multiple Cohort Mode
     if hefz_mode == 'ON' :  #Hefz mode
          _surahfill = uniformNumber(cohort_surah) 
          #print('Multi', _surahfill, i_init, i_to)
@@ -529,9 +521,7 @@ def hefz():
     
     
     
-    
-    #elif cohort_mode == 'one' :  # one cohort mode
-    elif cohort_mode == 'off' :  # Listening mode
+    elif hefz_mode == 'OFF' :  # Listening mode
     
         for r in range (int(repeat)):
             for s in range(int(surah), int(to_surah)+1):
@@ -597,7 +587,7 @@ def hefz():
                 
            #print(to_repeat)   
                    
-    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data,  safah_dic=safah_dic, ayah_dic=ayah_dic, highlight=ayah_id, resolution=resolution, to_repeat=to_repeat, safah=safah, repeat=repeat, to_ayah=to_ayah, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList=surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah, QuranParts=QuranParts, part=part, hezb=hezb, quarter=quarter, page_position=page_position, repeat_hefz=repeat_hefz, repeat_prepare=repeat_prepare, cohort=cohort, radioCohort=radioCohort, cohort_mode=cohort_mode, toggleHefz=toggleHefz, hefz_mode=hefz_mode )
+    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data,  safah_dic=safah_dic, ayah_dic=ayah_dic, highlight=ayah_id, resolution=resolution, to_repeat=to_repeat, safah=safah, repeat=repeat, to_ayah=to_ayah, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList=surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah, QuranParts=QuranParts, part=part, hezb=hezb, quarter=quarter, page_position=page_position, repeat_hefz=repeat_hefz, repeat_prepare=repeat_prepare, cohort=cohort, radioCohort=radioCohort, hefz_mode=hefz_mode )
     
     
 @app.route('/' )
@@ -608,7 +598,6 @@ def hefz():
 def index(ayah='1', to_ayah='1', surah='1', to_surah= '1', reciter='06', mode='R1', narration='N1', img_mode='T1', img_type='01', ayah_id="1:1", img_res='1053', safah='', repeat='1', selection_count = '1', ayah_repeat='1',  radioReciters = {}):
     
     radioCohort = {}
-    toggleHefz = ""
     cohort = {}
     cohort[1] = {'surah':2, 'ayah': 1, 'to_ayah':5}
     cohort[2] = {'surah':2, 'ayah': '', 'to_ayah':''}
@@ -653,7 +642,8 @@ def index(ayah='1', to_ayah='1', surah='1', to_surah= '1', reciter='06', mode='R
     if repeat is None:
         repeat='1' 
     if radioCohort == {} :
-        radioCohort['one'] = 'checked=""'      
+        radioCohort['OFF'] = 'checked=""' 
+        radioCohort['ON'] = ''            
         
     
       
@@ -693,23 +683,24 @@ def index(ayah='1', to_ayah='1', surah='1', to_surah= '1', reciter='06', mode='R
         safah = int(safah)
         ayah = str(pages[safah]['from'])
         ayah_to = str(pages[safah]['to'] + 1)
-        #print(safah, ayah, ayah_to)
 
     if CDN:
         page_path =  "https://cdn.tarteel.net/ayat/N1/img/T2/02/" + str(safah) + ".jpg" ;
     else:
         page_path = static_helper.get_image_path_from_safah(safah, img_res)     
     page_position = ['', '']
+    
     if safah % 2 == 0:
         page_position[0] = 'left'
         page_position[1] = 'right'
     else:
         page_position[0] = 'right'
         page_position[1] = 'left'
-        
+    
+    print('page_position', page_position)    
     resolution = get_page_resolution(img_res, safah)
 
-    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, to_ayah=to_ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data, highlight=ayah_id, resolution=resolution, safah=safah, repeat=repeat, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList= surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah, QuranParts=QuranParts, page_position=page_position, cohort=cohort, radioCohort=radioCohort,  toggleHefz=toggleHefz)
+    return render_template(template, STATIC_URL=STATIC_URL, title=title, surah=surah, ayah=ayah, to_ayah=to_ayah, next_ayah=next_ayah, prev_ayah=prev_ayah, surah_fill=surah_fill, ayah_fill=ayah_fill, img=img, reciter=reciter, mode=mode, narration=narration, img_mode=img_mode, img_type=img_type, surah_list=surahNames,  values=[], pagePath=page_path, data=safah_data, highlight=ayah_id, resolution=resolution, safah=safah, repeat=repeat, selection_count=selection_count, ayah_repeat=ayah_repeat, radioReciters=radioReciters, reciter_names=reciter_names, mode_type=mode_type, surahNamesList= surahNamesList, ayahCount=ayahCount, parts_dic=parts_dic, to_surah=to_surah, QuranParts=QuranParts, page_position=page_position, cohort=cohort, radioCohort=radioCohort)
 
 
 @app.route('/login', methods=['GET', 'POST'])
