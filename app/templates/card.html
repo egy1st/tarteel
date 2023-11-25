@@ -247,10 +247,9 @@
 			
 			<hr>
 			<div class="grid gap-6 mb-6 md:grid-cols-2">
-			<button type="submit"  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><b>(1)</b><br>  تجهيز</button>
+			<button type="submit"  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">استماع</button>
 			
-			<button type="button" id="startButton" name="startButton" onClick="" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><b>(2)</b><br> تشغيل</button>
-			
+					
 			<audio autoplay >
 			  {% if  stage_0 == 0 %}
 			  <source src="{{STATIC_URL}}ayat/{{narration}}/mp3/{{mode}}/{{reciter}}/{{surah_fill}}{{ayah_fill}}.mp3" type="audio/mpeg">
@@ -261,7 +260,7 @@
 			</div>
 			
 			
-			
+<div id="div-navigate_ayah" style="display:none;">		
 <div class="mx-left max-w-md bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
 
 <h3 class="mb-5 text-lg font-medium text-gray-900 dark:text-white">التنقل بين الآيات</h3>
@@ -285,6 +284,7 @@
 			</ul>
 			<br>
  </div>
+</div>
 			
 
 		

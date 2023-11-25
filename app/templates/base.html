@@ -141,56 +141,35 @@
 		});		
 			
 	
-		function formPrpare() {
-               
-			document.getElementById("form_fromto").submit();
-				
-		 }
-			
-			async function formSubmit() {
+// Submit handler
+// this code for any future needs but it does not do any thing to the program right now
+const form_dummy = document.getElementById("form_fromto");		
+		
+// Submit form via AJAX 
+async function submitForm() {
 
-				  //awaitdocument.getElementById('form_fromto').submit();	
-				  document.getElementById("startButton").click();
+  const response = await fetch("/hefz", {
+    method: "POST",
+    body: new FormData(form) 
+  });
 
-				
-				
-			}
-			
-			
-			function first() {
-			  return Promise.resolve(() => document.getElementById('form_fromto').submit())
-				
-			}
+  return response;
 
-			function second() {
-			  
-				return Promise.resolve(() => document.getElementById('startButton').click())
-				
-			}
-			
-			
-			function sleep(ms) {
-				return new Promise(resolve => setTimeout(resolve, ms))
-			  }
-			  
-			  function submitForm() {
-				return Promise.resolve(() => document.getElementById("form_fromto").submit())
-				
-			  }
-			  
-			  async function test() {
-				  await submitForm();
-				  console.log("Form Submitted.")
-				  await second();
-				  //console.log("wait ....")
-				  //await sleep(200);
-				  console.log("Form Clicked")
-				  
-			  }
-			  
-			 			 
-									
-			
+}
+
+form.addEventListener("submit", async e => {
+  
+  e.preventDefault(); // prevent default submit
+  
+  const response = await submitForm();
+
+  if(response.ok) {
+    window.location = "{{ url_for('hefz') }}"; // redirect on success
+  }
+
+});
+
+	
 		</script>
 		
 		
@@ -199,7 +178,7 @@
  
 
 
-<body onload='document.getElementById("startButton").addEventListener("click", onStart);'>
+<body>
 	
     
 	{% block content %}
